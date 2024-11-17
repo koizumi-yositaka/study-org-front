@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { createFileRoute, redirect } from '@tanstack/react-router'
+import { TestButton } from '../common/components/TestButton'
 
 export const Route = createFileRoute('/')({
     beforeLoad:()=>{
@@ -11,5 +12,5 @@ export const Route = createFileRoute('/')({
 })
 
 function RouteComponent() {
-  return 'Hello /!'
+  return <TestButton>AAA</TestButton>
 }
