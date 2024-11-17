@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { createFileRoute, createRootRouteWithContext, Outlet, redirect } from '@tanstack/react-router'
 import { MyRouterContext } from '../../App'
+import { LayoutA } from './-layout/layout-A'
+import { HeaderComp } from './-components/HeaderComp'
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
   component: RootComponent,
@@ -17,8 +19,10 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 function RootComponent() {
     console.log("読み込まれた")
   return (
-    <React.Fragment>
-      <Outlet />
-    </React.Fragment>
+    <LayoutA 
+    header={<HeaderComp></HeaderComp>} 
+    content={<Outlet></Outlet>}
+    footer={ <div>Footer</div>}
+    ></LayoutA>
   )
 }

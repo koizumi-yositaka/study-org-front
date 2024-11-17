@@ -1,6 +1,7 @@
 html,
-body,
-#root {
-  height: 100%;
-  margin: 0px;
+body {
+  overscroll-behavior: none; /* スクロールバウンスを無効化 */
+  height: 100%; /* 必須: ページ全体の高さを固定 */
+  margin: 0; /* 不要な余白を削除 */
+  overflow: hidden; /* スクロール領域を制御 */
 }

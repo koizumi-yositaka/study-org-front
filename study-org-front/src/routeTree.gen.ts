@@ -14,6 +14,8 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login/route'
 import { Route as ContentsRouteImport } from './routes/_contents/route'
 import { Route as IndexImport } from './routes/index'
+import { Route as ContentsCCCCRouteImport } from './routes/_contents/CCCC/route'
+import { Route as ContentsBBBBRouteImport } from './routes/_contents/BBBB/route'
 import { Route as ContentsAAAARouteImport } from './routes/_contents/AAAA/route'
 
 // Create/Update Routes
@@ -33,6 +35,18 @@ const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const ContentsCCCCRouteRoute = ContentsCCCCRouteImport.update({
+  id: '/CCCC',
+  path: '/CCCC',
+  getParentRoute: () => ContentsRouteRoute,
+} as any)
+
+const ContentsBBBBRouteRoute = ContentsBBBBRouteImport.update({
+  id: '/BBBB',
+  path: '/BBBB',
+  getParentRoute: () => ContentsRouteRoute,
 } as any)
 
 const ContentsAAAARouteRoute = ContentsAAAARouteImport.update({
@@ -73,6 +87,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContentsAAAARouteImport
       parentRoute: typeof ContentsRouteImport
     }
+    '/_contents/BBBB': {
+      id: '/_contents/BBBB'
+      path: '/BBBB'
+      fullPath: '/BBBB'
+      preLoaderRoute: typeof ContentsBBBBRouteImport
+      parentRoute: typeof ContentsRouteImport
+    }
+    '/_contents/CCCC': {
+      id: '/_contents/CCCC'
+      path: '/CCCC'
+      fullPath: '/CCCC'
+      preLoaderRoute: typeof ContentsCCCCRouteImport
+      parentRoute: typeof ContentsRouteImport
+    }
   }
 }
 
@@ -80,10 +108,14 @@ declare module '@tanstack/react-router' {
 
 interface ContentsRouteRouteChildren {
   ContentsAAAARouteRoute: typeof ContentsAAAARouteRoute
+  ContentsBBBBRouteRoute: typeof ContentsBBBBRouteRoute
+  ContentsCCCCRouteRoute: typeof ContentsCCCCRouteRoute
 }
 
 const ContentsRouteRouteChildren: ContentsRouteRouteChildren = {
   ContentsAAAARouteRoute: ContentsAAAARouteRoute,
+  ContentsBBBBRouteRoute: ContentsBBBBRouteRoute,
+  ContentsCCCCRouteRoute: ContentsCCCCRouteRoute,
 }
 
 const ContentsRouteRouteWithChildren = ContentsRouteRoute._addFileChildren(
@@ -95,6 +127,8 @@ export interface FileRoutesByFullPath {
   '': typeof ContentsRouteRouteWithChildren
   '/login': typeof LoginRouteRoute
   '/AAAA': typeof ContentsAAAARouteRoute
+  '/BBBB': typeof ContentsBBBBRouteRoute
+  '/CCCC': typeof ContentsCCCCRouteRoute
 }
 
 export interface FileRoutesByTo {
@@ -102,6 +136,8 @@ export interface FileRoutesByTo {
   '': typeof ContentsRouteRouteWithChildren
   '/login': typeof LoginRouteRoute
   '/AAAA': typeof ContentsAAAARouteRoute
+  '/BBBB': typeof ContentsBBBBRouteRoute
+  '/CCCC': typeof ContentsCCCCRouteRoute
 }
 
 export interface FileRoutesById {
@@ -110,14 +146,23 @@ export interface FileRoutesById {
   '/_contents': typeof ContentsRouteRouteWithChildren
   '/login': typeof LoginRouteRoute
   '/_contents/AAAA': typeof ContentsAAAARouteRoute
+  '/_contents/BBBB': typeof ContentsBBBBRouteRoute
+  '/_contents/CCCC': typeof ContentsCCCCRouteRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '' | '/login' | '/AAAA'
+  fullPaths: '/' | '' | '/login' | '/AAAA' | '/BBBB' | '/CCCC'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/login' | '/AAAA'
-  id: '__root__' | '/' | '/_contents' | '/login' | '/_contents/AAAA'
+  to: '/' | '' | '/login' | '/AAAA' | '/BBBB' | '/CCCC'
+  id:
+    | '__root__'
+    | '/'
+    | '/_contents'
+    | '/login'
+    | '/_contents/AAAA'
+    | '/_contents/BBBB'
+    | '/_contents/CCCC'
   fileRoutesById: FileRoutesById
 }
 
@@ -154,7 +199,9 @@ export const routeTree = rootRoute
     "/_contents": {
       "filePath": "_contents/route.tsx",
       "children": [
-        "/_contents/AAAA"
+        "/_contents/AAAA",
+        "/_contents/BBBB",
+        "/_contents/CCCC"
       ]
     },
     "/login": {
@@ -162,6 +209,14 @@ export const routeTree = rootRoute
     },
     "/_contents/AAAA": {
       "filePath": "_contents/AAAA/route.tsx",
+      "parent": "/_contents"
+    },
+    "/_contents/BBBB": {
+      "filePath": "_contents/BBBB/route.tsx",
+      "parent": "/_contents"
+    },
+    "/_contents/CCCC": {
+      "filePath": "_contents/CCCC/route.tsx",
       "parent": "/_contents"
     }
   }

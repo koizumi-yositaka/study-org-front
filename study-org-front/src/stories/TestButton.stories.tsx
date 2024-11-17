@@ -1,4 +1,4 @@
-import { Meta } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import { TestButton } from "../common/components/TestButton";
 
 const meta :Meta<typeof TestButton>={
@@ -16,35 +16,36 @@ const meta :Meta<typeof TestButton>={
 }
 
 export default meta;
+type Story = StoryObj<typeof meta>;
 /**
  * 
  * AAAA
  */
-export const DefaultButton={
+export const DefaultButton:Story={
     args:{
         children:"AAA"
     }
 }
-export const PrimaryButton={
+export const PrimaryButton:Story={
     args:{
         variant:"primary",
         children:"AAA"
     }
 }
-export const SecondaryButton={
+export const SecondaryButton:Story={
     args:{
         variant:"secondary",
         children:"AAA"
     }
 }
-export const DangerButton={
+export const DangerButton:Story={
     args:{
         variant:"danger",
         children:"AAA"
     }
 }
 
-export const PendingButton={
+export const PendingButton:Story={
     args:{
         variant:"danger",
         children:"AAA",
@@ -52,7 +53,7 @@ export const PendingButton={
     }
 }
 
-export const GroupedButtons ={
+export const GroupedButtons:Story ={
     render :()=>(
         <div className="flex-col justify-center">
             <TestButton className={"mr-2"}>デフォルト</TestButton>
