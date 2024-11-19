@@ -17,7 +17,7 @@ const sideBarMultiVariants = cva("flex items-center p-2 rounded-lg group text-ba
     
   variants:{
     variant:{
-      normal: "text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 w-full",
+      normal: "text-gray-900 hover:bg-gray-100 hover:bg-[#D9E2E9]  w-full",
     }
   },
   defaultVariants:{

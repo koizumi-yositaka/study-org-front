@@ -1,11 +1,13 @@
 import { createRouter, RouterProvider } from '@tanstack/react-router'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { routeTree } from './routeTree.gen';
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { useRecoilValue } from 'recoil';
 import { AuthSelector} from './state/auth';
+import { DesignContext } from './context/designContext';
+
 const queryClient = new QueryClient()
 export type MyRouterContext= {
   // The ReturnType of your useAuth hook or the value of your AuthContext
@@ -29,8 +31,14 @@ declare module '@tanstack/react-router' {
 
 function App() {
 const auth =useRecoilValue(AuthSelector)
+const defaultDesign:DesignContext={
+    variant:"normal",
+    isDummy:true
+}
+const [design,setDesign]=useState<DesignContext>(defaultDesign)
+console.log("here",design)
   return (
-
+<DesignContext.Provider value={design}>
 <Suspense fallback={<div>Loading...</div>}>
 <ErrorBoundary fallback={<div>Error...</div>}>
 <QueryClientProvider client={queryClient}>
@@ -40,7 +48,7 @@ const auth =useRecoilValue(AuthSelector)
 </ErrorBoundary>
 
 </Suspense>
-     
+</DesignContext.Provider>
   )
 }
 

@@ -14,6 +14,8 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login/route'
 import { Route as ContentsRouteImport } from './routes/_contents/route'
 import { Route as IndexImport } from './routes/index'
+import { Route as ContentsUsersRouteImport } from './routes/_contents/users/route'
+import { Route as ContentsSettingsRouteImport } from './routes/_contents/settings/route'
 import { Route as ContentsCCCCRouteImport } from './routes/_contents/CCCC/route'
 import { Route as ContentsBBBBRouteImport } from './routes/_contents/BBBB/route'
 import { Route as ContentsAAAARouteImport } from './routes/_contents/AAAA/route'
@@ -35,6 +37,18 @@ const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const ContentsUsersRouteRoute = ContentsUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => ContentsRouteRoute,
+} as any)
+
+const ContentsSettingsRouteRoute = ContentsSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => ContentsRouteRoute,
 } as any)
 
 const ContentsCCCCRouteRoute = ContentsCCCCRouteImport.update({
@@ -101,6 +115,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContentsCCCCRouteImport
       parentRoute: typeof ContentsRouteImport
     }
+    '/_contents/settings': {
+      id: '/_contents/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof ContentsSettingsRouteImport
+      parentRoute: typeof ContentsRouteImport
+    }
+    '/_contents/users': {
+      id: '/_contents/users'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof ContentsUsersRouteImport
+      parentRoute: typeof ContentsRouteImport
+    }
   }
 }
 
@@ -110,12 +138,16 @@ interface ContentsRouteRouteChildren {
   ContentsAAAARouteRoute: typeof ContentsAAAARouteRoute
   ContentsBBBBRouteRoute: typeof ContentsBBBBRouteRoute
   ContentsCCCCRouteRoute: typeof ContentsCCCCRouteRoute
+  ContentsSettingsRouteRoute: typeof ContentsSettingsRouteRoute
+  ContentsUsersRouteRoute: typeof ContentsUsersRouteRoute
 }
 
 const ContentsRouteRouteChildren: ContentsRouteRouteChildren = {
   ContentsAAAARouteRoute: ContentsAAAARouteRoute,
   ContentsBBBBRouteRoute: ContentsBBBBRouteRoute,
   ContentsCCCCRouteRoute: ContentsCCCCRouteRoute,
+  ContentsSettingsRouteRoute: ContentsSettingsRouteRoute,
+  ContentsUsersRouteRoute: ContentsUsersRouteRoute,
 }
 
 const ContentsRouteRouteWithChildren = ContentsRouteRoute._addFileChildren(
@@ -129,6 +161,8 @@ export interface FileRoutesByFullPath {
   '/AAAA': typeof ContentsAAAARouteRoute
   '/BBBB': typeof ContentsBBBBRouteRoute
   '/CCCC': typeof ContentsCCCCRouteRoute
+  '/settings': typeof ContentsSettingsRouteRoute
+  '/users': typeof ContentsUsersRouteRoute
 }
 
 export interface FileRoutesByTo {
@@ -138,6 +172,8 @@ export interface FileRoutesByTo {
   '/AAAA': typeof ContentsAAAARouteRoute
   '/BBBB': typeof ContentsBBBBRouteRoute
   '/CCCC': typeof ContentsCCCCRouteRoute
+  '/settings': typeof ContentsSettingsRouteRoute
+  '/users': typeof ContentsUsersRouteRoute
 }
 
 export interface FileRoutesById {
@@ -148,13 +184,23 @@ export interface FileRoutesById {
   '/_contents/AAAA': typeof ContentsAAAARouteRoute
   '/_contents/BBBB': typeof ContentsBBBBRouteRoute
   '/_contents/CCCC': typeof ContentsCCCCRouteRoute
+  '/_contents/settings': typeof ContentsSettingsRouteRoute
+  '/_contents/users': typeof ContentsUsersRouteRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '' | '/login' | '/AAAA' | '/BBBB' | '/CCCC'
+  fullPaths:
+    | '/'
+    | ''
+    | '/login'
+    | '/AAAA'
+    | '/BBBB'
+    | '/CCCC'
+    | '/settings'
+    | '/users'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/login' | '/AAAA' | '/BBBB' | '/CCCC'
+  to: '/' | '' | '/login' | '/AAAA' | '/BBBB' | '/CCCC' | '/settings' | '/users'
   id:
     | '__root__'
     | '/'
@@ -163,6 +209,8 @@ export interface FileRouteTypes {
     | '/_contents/AAAA'
     | '/_contents/BBBB'
     | '/_contents/CCCC'
+    | '/_contents/settings'
+    | '/_contents/users'
   fileRoutesById: FileRoutesById
 }
 
@@ -201,7 +249,9 @@ export const routeTree = rootRoute
       "children": [
         "/_contents/AAAA",
         "/_contents/BBBB",
-        "/_contents/CCCC"
+        "/_contents/CCCC",
+        "/_contents/settings",
+        "/_contents/users"
       ]
     },
     "/login": {
@@ -217,6 +267,14 @@ export const routeTree = rootRoute
     },
     "/_contents/CCCC": {
       "filePath": "_contents/CCCC/route.tsx",
+      "parent": "/_contents"
+    },
+    "/_contents/settings": {
+      "filePath": "_contents/settings/route.tsx",
+      "parent": "/_contents"
+    },
+    "/_contents/users": {
+      "filePath": "_contents/users/route.tsx",
       "parent": "/_contents"
     }
   }

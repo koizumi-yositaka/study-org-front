@@ -10,7 +10,7 @@ interface SideBarProps extends HTMLProps<HTMLDivElement>,VariantProps<typeof sid
 const sideBarVariants = cva("transition-all duration-300 ease-in-out flex-shrink-0 w-60",{
   variants:{
     variant:{
-      normal: "bg-gray-800 text-white",
+      normal: "bg-[#F7F9FA] text-white",
    
 
     },
@@ -22,7 +22,7 @@ const sideBarVariants = cva("transition-all duration-300 ease-in-out flex-shrink
 const sideBarULWrapperVariants = cva("h-full px-3 p-4 overflow-y-auto ",{
   variants:{
     variant:{
-      normal: "bg-gray-50 dark:bg-gray-800 bg-white",
+      normal: "bg-[#F7F9FA] bg-white",
 
     }
   },

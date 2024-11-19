@@ -3,6 +3,9 @@ import { SideBar } from "../-components/SideBar"
 import { SideBarState } from "../-state/sideBarState"
 import { useRecoilValue } from "recoil"
 import useSideBarOpen from "../-hooks/useNaviOpen"
+import { HeaderComp } from "../-components/HeaderComp"
+import { Outlet } from "@tanstack/react-router"
+import { useDesignContext } from "../../../context/designContext"
 
 
 interface LayoutProps {
@@ -15,14 +18,16 @@ interface LayoutProps {
 
 export const LayoutA = ({header,content,footer}:LayoutProps) => {
     const isSidebarOpen =useRecoilValue(SideBarState)
+    const design=useDesignContext()
     const {open,close} = useSideBarOpen();
   return (
    
     <div className="h-svh max-h-svh">
         <div className="sticky top-0 w-full">
-            <div className="bg-orange-500 py-2">
-                <h1 className="text-center text-xl">Header</h1>
-            </div>
+            {/* <div className="bg-[#647687] py-5">
+                
+            </div> */}
+            <HeaderComp message="Hello" variant={design.variant} ></HeaderComp>
         </div>
         <div className="flex h-svh max-h-svh">
         {
@@ -31,13 +36,10 @@ export const LayoutA = ({header,content,footer}:LayoutProps) => {
         <div className="h-full flex-1">
 
             
-            <div>
-            content
+            <div className="h-full">
+                <Outlet/>
             </div>
-            
-            <div>
-            footer
-            </div>
+        
         </div>
         </div>
 
