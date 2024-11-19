@@ -31,13 +31,13 @@ export const LayoutA = ({header,content,footer}:LayoutProps) => {
         </div>
         <div className="flex h-svh max-h-svh">
         {
-           isSidebarOpen && <SideBar></SideBar>
+           isSidebarOpen && <SideBar variant={design.variant}></SideBar>
         }
         <div className="h-full flex-1">
 
             
             <div className="h-full">
-                <Outlet/>
+                <Outlet/>{design.variant}
             </div>
         
         </div>

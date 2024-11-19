@@ -33,7 +33,7 @@ function App() {
 const auth =useRecoilValue(AuthSelector)
 const defaultDesign:DesignContext={
     variant:"normal",
-    isDummy:true
+    isDummy:false
 }
 const [design,setDesign]=useState<DesignContext>(defaultDesign)
 console.log("here",design)
