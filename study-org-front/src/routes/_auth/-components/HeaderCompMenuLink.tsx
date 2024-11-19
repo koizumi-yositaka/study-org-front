@@ -3,6 +3,7 @@ import { cva, VariantProps } from "class-variance-authority"
 import { LinkFactory } from "./LinkFactory"
 
 
+
 export interface HeaderMenuLinkProps extends  LinkProps,VariantProps<typeof headerMenuLinkVariants>{ 
   className?:string
 

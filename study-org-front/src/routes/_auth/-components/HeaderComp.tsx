@@ -28,9 +28,9 @@ export interface HeaderMenuType extends LinkFactoryProps{
     itemsInfo:HeaderMenuLinkProps[]
 }
 const headerInfo:HeaderMenuType[]=[
-    {to:"/AAAA",children:"XXX",level:"main",itemsInfo:[]},
-    {to:"/AAAA",children:"XXX",level:"main",itemsInfo:[]},
-    {to:"/AAAA",children:"XXX2",level:"main",itemsInfo:[]},
+    {to:"/home",children:"XXX",level:"main",itemsInfo:[]},
+    {to:"/home",children:"XXX",level:"main",itemsInfo:[]},
+    {to:"/home",children:"XXX2",level:"main",itemsInfo:[]},
     {to:"/BBBB",label:"XXX",level:"dropdown",itemsInfo:[
         {to:"/CCCC",children:"XXX"},
         {to:"/settings",children:"XXX2"},

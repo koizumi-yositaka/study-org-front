@@ -1,7 +1,8 @@
-import { LinkProps } from "@tanstack/react-router"
+import { LinkProps, redirect, useNavigate } from "@tanstack/react-router"
 import { cva, VariantProps } from "class-variance-authority"
 import { AnchorHTMLAttributes, ReactNode, useState } from "react"
 import { HeaderMenuLink, HeaderMenuLinkProps } from "./HeaderCompMenuLink"
+import useAuth from "../../-hooks/useAuth"
 
 //trigerbutton
 interface HeaderMenuLinkWithDropDownTriggerButtonProps extends AnchorHTMLAttributes<HTMLAnchorElement>, VariantProps<typeof headerMenuLinkWithDropDownTriggerButtonVariants>{ 
@@ -64,8 +65,11 @@ const dropDownVariants = cva("py-2 text-sm",{
   }
 })
 const DropDown = ({variant,items}:DropDownProps)=>{
+  const {logout} = useAuth()
+  const navi =useNavigate()
   const clickHandler = ()=>{
-
+    logout()
+    navi({"to":"/login"})
   }
   return (
     <div id="dropdownNavbar" className={dropDownWrapperVariants({variant})}>
@@ -75,7 +79,7 @@ const DropDown = ({variant,items}:DropDownProps)=>{
           }
         </ul>
         <div className="py-1">
-            <a onClick={clickHandler} href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+            <span onClick={clickHandler} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</span>
         </div>
     </div>
   )

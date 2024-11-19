@@ -7,12 +7,9 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { useRecoilValue } from 'recoil';
 import { AuthSelector} from './state/auth';
 import { DesignContext } from './context/designContext';
+import useAuth from './routes/-hooks/useAuth';
 
 const queryClient = new QueryClient()
-export type MyRouterContext= {
-  // The ReturnType of your useAuth hook or the value of your AuthContext
-  auth: boolean
-}
 // Set up a Router instance
 const router = createRouter({
   routeTree,
@@ -30,7 +27,7 @@ declare module '@tanstack/react-router' {
 
 
 function App() {
-const auth =useRecoilValue(AuthSelector)
+const auth = useAuth()
 const defaultDesign:DesignContext={
     variant:"normal",
     isDummy:false
@@ -43,7 +40,7 @@ console.log("here",design)
 <ErrorBoundary fallback={<div>Error...</div>}>
 <QueryClientProvider client={queryClient}>
 <ReactQueryDevtools initialIsOpen={false} />
-<RouterProvider context={auth} router={router} defaultNotFoundComponent={()=><h1>見つからず</h1>}/>
+<RouterProvider context={{auth}} router={router} defaultNotFoundComponent={()=><h1>見つからず</h1>}/>
 </QueryClientProvider>
 </ErrorBoundary>
 

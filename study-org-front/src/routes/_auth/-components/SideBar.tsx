@@ -3,7 +3,9 @@ import { SideBarMenu } from './SideBarMenu'
 import { cva, VariantProps } from 'class-variance-authority'
 import { SideBarObjType } from '../-types/type'
 import { SideBarMulti } from './SideBarMulti'
-interface SideBarProps extends HTMLProps<HTMLDivElement>,VariantProps<typeof sideBarVariants> {
+import { LinkProps } from '@tanstack/react-router'
+import { LinkFactoryProps } from './LinkFactory'
+interface SideBarProps extends LinkFactoryProps,VariantProps<typeof sideBarVariants> {
 
 
 }
@@ -22,7 +24,7 @@ const sideBarVariants = cva("transition-all duration-300 ease-in-out flex-shrink
 const sideBarULWrapperVariants = cva("h-full px-3 p-4 overflow-y-auto ",{
   variants:{
     variant:{
-      normal: "bg-white bg-[#F7F9FA] ",
+      normal: "bg-[#F7F9FA] ",
 
     }
   },
@@ -36,7 +38,7 @@ const sideBarULWrapperVariants = cva("h-full px-3 p-4 overflow-y-auto ",{
 //今後はサーバーサイドで管理かな？
 const SideBatObj:SideBarObjType[]=[
    {
-      to:"/AAAA",
+      to:"/home",
       label:"KANBAN",
       svgKey:"KANBAN",
       rightLabel:"AA"

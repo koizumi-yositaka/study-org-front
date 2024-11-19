@@ -11,25 +11,25 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as AuthImport } from './routes/_auth'
 import { Route as LoginRouteImport } from './routes/login/route'
-import { Route as ContentsRouteImport } from './routes/_contents/route'
 import { Route as IndexImport } from './routes/index'
-import { Route as ContentsUsersRouteImport } from './routes/_contents/users/route'
-import { Route as ContentsSettingsRouteImport } from './routes/_contents/settings/route'
-import { Route as ContentsCCCCRouteImport } from './routes/_contents/CCCC/route'
-import { Route as ContentsBBBBRouteImport } from './routes/_contents/BBBB/route'
-import { Route as ContentsAAAARouteImport } from './routes/_contents/AAAA/route'
+import { Route as AuthUsersRouteImport } from './routes/_auth/users/route'
+import { Route as AuthSettingsRouteImport } from './routes/_auth/settings/route'
+import { Route as AuthHomeRouteImport } from './routes/_auth/home/route'
+import { Route as AuthCCCCRouteImport } from './routes/_auth/CCCC/route'
+import { Route as AuthBBBBRouteImport } from './routes/_auth/BBBB/route'
 
 // Create/Update Routes
+
+const AuthRoute = AuthImport.update({
+  id: '/_auth',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const LoginRouteRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const ContentsRouteRoute = ContentsRouteImport.update({
-  id: '/_contents',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -39,34 +39,34 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const ContentsUsersRouteRoute = ContentsUsersRouteImport.update({
+const AuthUsersRouteRoute = AuthUsersRouteImport.update({
   id: '/users',
   path: '/users',
-  getParentRoute: () => ContentsRouteRoute,
+  getParentRoute: () => AuthRoute,
 } as any)
 
-const ContentsSettingsRouteRoute = ContentsSettingsRouteImport.update({
+const AuthSettingsRouteRoute = AuthSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
-  getParentRoute: () => ContentsRouteRoute,
+  getParentRoute: () => AuthRoute,
 } as any)
 
-const ContentsCCCCRouteRoute = ContentsCCCCRouteImport.update({
+const AuthHomeRouteRoute = AuthHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => AuthRoute,
+} as any)
+
+const AuthCCCCRouteRoute = AuthCCCCRouteImport.update({
   id: '/CCCC',
   path: '/CCCC',
-  getParentRoute: () => ContentsRouteRoute,
+  getParentRoute: () => AuthRoute,
 } as any)
 
-const ContentsBBBBRouteRoute = ContentsBBBBRouteImport.update({
+const AuthBBBBRouteRoute = AuthBBBBRouteImport.update({
   id: '/BBBB',
   path: '/BBBB',
-  getParentRoute: () => ContentsRouteRoute,
-} as any)
-
-const ContentsAAAARouteRoute = ContentsAAAARouteImport.update({
-  id: '/AAAA',
-  path: '/AAAA',
-  getParentRoute: () => ContentsRouteRoute,
+  getParentRoute: () => AuthRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -80,13 +80,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/_contents': {
-      id: '/_contents'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof ContentsRouteImport
-      parentRoute: typeof rootRoute
-    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -94,136 +87,141 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRoute
     }
-    '/_contents/AAAA': {
-      id: '/_contents/AAAA'
-      path: '/AAAA'
-      fullPath: '/AAAA'
-      preLoaderRoute: typeof ContentsAAAARouteImport
-      parentRoute: typeof ContentsRouteImport
+    '/_auth': {
+      id: '/_auth'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthImport
+      parentRoute: typeof rootRoute
     }
-    '/_contents/BBBB': {
-      id: '/_contents/BBBB'
+    '/_auth/BBBB': {
+      id: '/_auth/BBBB'
       path: '/BBBB'
       fullPath: '/BBBB'
-      preLoaderRoute: typeof ContentsBBBBRouteImport
-      parentRoute: typeof ContentsRouteImport
+      preLoaderRoute: typeof AuthBBBBRouteImport
+      parentRoute: typeof AuthImport
     }
-    '/_contents/CCCC': {
-      id: '/_contents/CCCC'
+    '/_auth/CCCC': {
+      id: '/_auth/CCCC'
       path: '/CCCC'
       fullPath: '/CCCC'
-      preLoaderRoute: typeof ContentsCCCCRouteImport
-      parentRoute: typeof ContentsRouteImport
+      preLoaderRoute: typeof AuthCCCCRouteImport
+      parentRoute: typeof AuthImport
     }
-    '/_contents/settings': {
-      id: '/_contents/settings'
+    '/_auth/home': {
+      id: '/_auth/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof AuthHomeRouteImport
+      parentRoute: typeof AuthImport
+    }
+    '/_auth/settings': {
+      id: '/_auth/settings'
       path: '/settings'
       fullPath: '/settings'
-      preLoaderRoute: typeof ContentsSettingsRouteImport
-      parentRoute: typeof ContentsRouteImport
+      preLoaderRoute: typeof AuthSettingsRouteImport
+      parentRoute: typeof AuthImport
     }
-    '/_contents/users': {
-      id: '/_contents/users'
+    '/_auth/users': {
+      id: '/_auth/users'
       path: '/users'
       fullPath: '/users'
-      preLoaderRoute: typeof ContentsUsersRouteImport
-      parentRoute: typeof ContentsRouteImport
+      preLoaderRoute: typeof AuthUsersRouteImport
+      parentRoute: typeof AuthImport
     }
   }
 }
 
 // Create and export the route tree
 
-interface ContentsRouteRouteChildren {
-  ContentsAAAARouteRoute: typeof ContentsAAAARouteRoute
-  ContentsBBBBRouteRoute: typeof ContentsBBBBRouteRoute
-  ContentsCCCCRouteRoute: typeof ContentsCCCCRouteRoute
-  ContentsSettingsRouteRoute: typeof ContentsSettingsRouteRoute
-  ContentsUsersRouteRoute: typeof ContentsUsersRouteRoute
+interface AuthRouteChildren {
+  AuthBBBBRouteRoute: typeof AuthBBBBRouteRoute
+  AuthCCCCRouteRoute: typeof AuthCCCCRouteRoute
+  AuthHomeRouteRoute: typeof AuthHomeRouteRoute
+  AuthSettingsRouteRoute: typeof AuthSettingsRouteRoute
+  AuthUsersRouteRoute: typeof AuthUsersRouteRoute
 }
 
-const ContentsRouteRouteChildren: ContentsRouteRouteChildren = {
-  ContentsAAAARouteRoute: ContentsAAAARouteRoute,
-  ContentsBBBBRouteRoute: ContentsBBBBRouteRoute,
-  ContentsCCCCRouteRoute: ContentsCCCCRouteRoute,
-  ContentsSettingsRouteRoute: ContentsSettingsRouteRoute,
-  ContentsUsersRouteRoute: ContentsUsersRouteRoute,
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthBBBBRouteRoute: AuthBBBBRouteRoute,
+  AuthCCCCRouteRoute: AuthCCCCRouteRoute,
+  AuthHomeRouteRoute: AuthHomeRouteRoute,
+  AuthSettingsRouteRoute: AuthSettingsRouteRoute,
+  AuthUsersRouteRoute: AuthUsersRouteRoute,
 }
 
-const ContentsRouteRouteWithChildren = ContentsRouteRoute._addFileChildren(
-  ContentsRouteRouteChildren,
-)
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '': typeof ContentsRouteRouteWithChildren
   '/login': typeof LoginRouteRoute
-  '/AAAA': typeof ContentsAAAARouteRoute
-  '/BBBB': typeof ContentsBBBBRouteRoute
-  '/CCCC': typeof ContentsCCCCRouteRoute
-  '/settings': typeof ContentsSettingsRouteRoute
-  '/users': typeof ContentsUsersRouteRoute
+  '': typeof AuthRouteWithChildren
+  '/BBBB': typeof AuthBBBBRouteRoute
+  '/CCCC': typeof AuthCCCCRouteRoute
+  '/home': typeof AuthHomeRouteRoute
+  '/settings': typeof AuthSettingsRouteRoute
+  '/users': typeof AuthUsersRouteRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '': typeof ContentsRouteRouteWithChildren
   '/login': typeof LoginRouteRoute
-  '/AAAA': typeof ContentsAAAARouteRoute
-  '/BBBB': typeof ContentsBBBBRouteRoute
-  '/CCCC': typeof ContentsCCCCRouteRoute
-  '/settings': typeof ContentsSettingsRouteRoute
-  '/users': typeof ContentsUsersRouteRoute
+  '': typeof AuthRouteWithChildren
+  '/BBBB': typeof AuthBBBBRouteRoute
+  '/CCCC': typeof AuthCCCCRouteRoute
+  '/home': typeof AuthHomeRouteRoute
+  '/settings': typeof AuthSettingsRouteRoute
+  '/users': typeof AuthUsersRouteRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/_contents': typeof ContentsRouteRouteWithChildren
   '/login': typeof LoginRouteRoute
-  '/_contents/AAAA': typeof ContentsAAAARouteRoute
-  '/_contents/BBBB': typeof ContentsBBBBRouteRoute
-  '/_contents/CCCC': typeof ContentsCCCCRouteRoute
-  '/_contents/settings': typeof ContentsSettingsRouteRoute
-  '/_contents/users': typeof ContentsUsersRouteRoute
+  '/_auth': typeof AuthRouteWithChildren
+  '/_auth/BBBB': typeof AuthBBBBRouteRoute
+  '/_auth/CCCC': typeof AuthCCCCRouteRoute
+  '/_auth/home': typeof AuthHomeRouteRoute
+  '/_auth/settings': typeof AuthSettingsRouteRoute
+  '/_auth/users': typeof AuthUsersRouteRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | ''
     | '/login'
-    | '/AAAA'
+    | ''
     | '/BBBB'
     | '/CCCC'
+    | '/home'
     | '/settings'
     | '/users'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/login' | '/AAAA' | '/BBBB' | '/CCCC' | '/settings' | '/users'
+  to: '/' | '/login' | '' | '/BBBB' | '/CCCC' | '/home' | '/settings' | '/users'
   id:
     | '__root__'
     | '/'
-    | '/_contents'
     | '/login'
-    | '/_contents/AAAA'
-    | '/_contents/BBBB'
-    | '/_contents/CCCC'
-    | '/_contents/settings'
-    | '/_contents/users'
+    | '/_auth'
+    | '/_auth/BBBB'
+    | '/_auth/CCCC'
+    | '/_auth/home'
+    | '/_auth/settings'
+    | '/_auth/users'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ContentsRouteRoute: typeof ContentsRouteRouteWithChildren
   LoginRouteRoute: typeof LoginRouteRoute
+  AuthRoute: typeof AuthRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ContentsRouteRoute: ContentsRouteRouteWithChildren,
   LoginRouteRoute: LoginRouteRoute,
+  AuthRoute: AuthRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -237,45 +235,45 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/_contents",
-        "/login"
+        "/login",
+        "/_auth"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/_contents": {
-      "filePath": "_contents/route.tsx",
-      "children": [
-        "/_contents/AAAA",
-        "/_contents/BBBB",
-        "/_contents/CCCC",
-        "/_contents/settings",
-        "/_contents/users"
-      ]
-    },
     "/login": {
       "filePath": "login/route.tsx"
     },
-    "/_contents/AAAA": {
-      "filePath": "_contents/AAAA/route.tsx",
-      "parent": "/_contents"
+    "/_auth": {
+      "filePath": "_auth.tsx",
+      "children": [
+        "/_auth/BBBB",
+        "/_auth/CCCC",
+        "/_auth/home",
+        "/_auth/settings",
+        "/_auth/users"
+      ]
     },
-    "/_contents/BBBB": {
-      "filePath": "_contents/BBBB/route.tsx",
-      "parent": "/_contents"
+    "/_auth/BBBB": {
+      "filePath": "_auth/BBBB/route.tsx",
+      "parent": "/_auth"
     },
-    "/_contents/CCCC": {
-      "filePath": "_contents/CCCC/route.tsx",
-      "parent": "/_contents"
+    "/_auth/CCCC": {
+      "filePath": "_auth/CCCC/route.tsx",
+      "parent": "/_auth"
     },
-    "/_contents/settings": {
-      "filePath": "_contents/settings/route.tsx",
-      "parent": "/_contents"
+    "/_auth/home": {
+      "filePath": "_auth/home/route.tsx",
+      "parent": "/_auth"
     },
-    "/_contents/users": {
-      "filePath": "_contents/users/route.tsx",
-      "parent": "/_contents"
+    "/_auth/settings": {
+      "filePath": "_auth/settings/route.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/users": {
+      "filePath": "_auth/users/route.tsx",
+      "parent": "/_auth"
     }
   }
 }
