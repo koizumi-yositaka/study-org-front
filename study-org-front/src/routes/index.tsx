@@ -7,13 +7,9 @@ export const Route = createFileRoute('/')({
         throw redirect({
             "to":"/login"
         })
-    },
-  component: RouteComponent,
+    }
 })
 
-function RouteComponent() {
-  return <Link to={"/home"}>AAA</Link>
-}
 
 // import * as React from 'react'
 // import { createFileRoute, createRootRouteWithContext, Outlet, redirect } from '@tanstack/react-router'

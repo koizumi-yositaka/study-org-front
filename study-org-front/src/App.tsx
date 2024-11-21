@@ -8,6 +8,7 @@ import { useRecoilValue } from 'recoil';
 import { AuthSelector} from './state/auth';
 import { DesignContext } from './context/designContext';
 import useAuth from './routes/-hooks/useAuth';
+import { Toaster } from './components/ui/toaster';
 
 const queryClient = new QueryClient()
 // Set up a Router instance
@@ -41,6 +42,7 @@ console.log("here",design)
 <QueryClientProvider client={queryClient}>
 <ReactQueryDevtools initialIsOpen={false} />
 <RouterProvider context={{auth}} router={router} defaultNotFoundComponent={()=><h1>見つからず</h1>}/>
+<Toaster/>
 </QueryClientProvider>
 </ErrorBoundary>
 

@@ -1,5 +1,6 @@
 /// <reference types="vitest" />
 import { defineConfig } from 'vite'
+import path from "path"
 import react from '@vitejs/plugin-react'
 import {TanStackRouterVite} from "@tanstack/router-vite-plugin"
 import dynamicImport from "vite-plugin-dynamic-import";
@@ -19,5 +20,13 @@ export default defineConfig({
     environment: "happy-dom",
     // テスト全体で使用するライブラリをvitest-setup.jsに記載し、インポートする設定
     setupFiles: [resolve(__dirname, "src", "vitest-setup.js")],
+  },
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom'],
   },
 });

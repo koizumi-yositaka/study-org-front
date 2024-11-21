@@ -1,4 +1,5 @@
 import * as React from 'react'
+
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 import { LayoutA } from './_auth/-layout/layout-A';
 import { HeaderComp } from './_auth/-components/HeaderComp';
@@ -14,10 +15,11 @@ export const Route = createFileRoute('/_auth')({
 
 })
 function RootComponent() {
+  
     console.log("読み込まれた")
   return (
     <LayoutA 
-    header={<HeaderComp message='AAAA'></HeaderComp>} 
+    header={<HeaderComp></HeaderComp>} 
     content={<Outlet></Outlet>}
     footer={ <div>Footer</div>}
     ></LayoutA>
