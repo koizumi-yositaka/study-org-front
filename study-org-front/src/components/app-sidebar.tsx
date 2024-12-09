@@ -36,6 +36,11 @@ const items = [
     icon: Search,
   },
   {
+    title: "Meetings",
+    to: "/meetings",
+    icon: Settings,
+  },
+  {
     title: "Settings",
     to: "/settings",
     icon: Settings,

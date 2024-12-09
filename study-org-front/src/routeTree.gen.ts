@@ -16,6 +16,7 @@ import { Route as LoginRouteImport } from './routes/login/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthUsersRouteImport } from './routes/_auth/users/route'
 import { Route as AuthSettingsRouteImport } from './routes/_auth/settings/route'
+import { Route as AuthMeetingsRouteImport } from './routes/_auth/meetings/route'
 import { Route as AuthHomeRouteImport } from './routes/_auth/home/route'
 import { Route as AuthCCCCRouteImport } from './routes/_auth/CCCC/route'
 import { Route as AuthBBBBRouteImport } from './routes/_auth/BBBB/route'
@@ -48,6 +49,12 @@ const AuthUsersRouteRoute = AuthUsersRouteImport.update({
 const AuthSettingsRouteRoute = AuthSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => AuthRoute,
+} as any)
+
+const AuthMeetingsRouteRoute = AuthMeetingsRouteImport.update({
+  id: '/meetings',
+  path: '/meetings',
   getParentRoute: () => AuthRoute,
 } as any)
 
@@ -115,6 +122,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthHomeRouteImport
       parentRoute: typeof AuthImport
     }
+    '/_auth/meetings': {
+      id: '/_auth/meetings'
+      path: '/meetings'
+      fullPath: '/meetings'
+      preLoaderRoute: typeof AuthMeetingsRouteImport
+      parentRoute: typeof AuthImport
+    }
     '/_auth/settings': {
       id: '/_auth/settings'
       path: '/settings'
@@ -138,6 +152,7 @@ interface AuthRouteChildren {
   AuthBBBBRouteRoute: typeof AuthBBBBRouteRoute
   AuthCCCCRouteRoute: typeof AuthCCCCRouteRoute
   AuthHomeRouteRoute: typeof AuthHomeRouteRoute
+  AuthMeetingsRouteRoute: typeof AuthMeetingsRouteRoute
   AuthSettingsRouteRoute: typeof AuthSettingsRouteRoute
   AuthUsersRouteRoute: typeof AuthUsersRouteRoute
 }
@@ -146,6 +161,7 @@ const AuthRouteChildren: AuthRouteChildren = {
   AuthBBBBRouteRoute: AuthBBBBRouteRoute,
   AuthCCCCRouteRoute: AuthCCCCRouteRoute,
   AuthHomeRouteRoute: AuthHomeRouteRoute,
+  AuthMeetingsRouteRoute: AuthMeetingsRouteRoute,
   AuthSettingsRouteRoute: AuthSettingsRouteRoute,
   AuthUsersRouteRoute: AuthUsersRouteRoute,
 }
@@ -159,6 +175,7 @@ export interface FileRoutesByFullPath {
   '/BBBB': typeof AuthBBBBRouteRoute
   '/CCCC': typeof AuthCCCCRouteRoute
   '/home': typeof AuthHomeRouteRoute
+  '/meetings': typeof AuthMeetingsRouteRoute
   '/settings': typeof AuthSettingsRouteRoute
   '/users': typeof AuthUsersRouteRoute
 }
@@ -170,6 +187,7 @@ export interface FileRoutesByTo {
   '/BBBB': typeof AuthBBBBRouteRoute
   '/CCCC': typeof AuthCCCCRouteRoute
   '/home': typeof AuthHomeRouteRoute
+  '/meetings': typeof AuthMeetingsRouteRoute
   '/settings': typeof AuthSettingsRouteRoute
   '/users': typeof AuthUsersRouteRoute
 }
@@ -182,6 +200,7 @@ export interface FileRoutesById {
   '/_auth/BBBB': typeof AuthBBBBRouteRoute
   '/_auth/CCCC': typeof AuthCCCCRouteRoute
   '/_auth/home': typeof AuthHomeRouteRoute
+  '/_auth/meetings': typeof AuthMeetingsRouteRoute
   '/_auth/settings': typeof AuthSettingsRouteRoute
   '/_auth/users': typeof AuthUsersRouteRoute
 }
@@ -195,10 +214,20 @@ export interface FileRouteTypes {
     | '/BBBB'
     | '/CCCC'
     | '/home'
+    | '/meetings'
     | '/settings'
     | '/users'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '' | '/BBBB' | '/CCCC' | '/home' | '/settings' | '/users'
+  to:
+    | '/'
+    | '/login'
+    | ''
+    | '/BBBB'
+    | '/CCCC'
+    | '/home'
+    | '/meetings'
+    | '/settings'
+    | '/users'
   id:
     | '__root__'
     | '/'
@@ -207,6 +236,7 @@ export interface FileRouteTypes {
     | '/_auth/BBBB'
     | '/_auth/CCCC'
     | '/_auth/home'
+    | '/_auth/meetings'
     | '/_auth/settings'
     | '/_auth/users'
   fileRoutesById: FileRoutesById
@@ -251,6 +281,7 @@ export const routeTree = rootRoute
         "/_auth/BBBB",
         "/_auth/CCCC",
         "/_auth/home",
+        "/_auth/meetings",
         "/_auth/settings",
         "/_auth/users"
       ]
@@ -265,6 +296,10 @@ export const routeTree = rootRoute
     },
     "/_auth/home": {
       "filePath": "_auth/home/route.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/meetings": {
+      "filePath": "_auth/meetings/route.tsx",
       "parent": "/_auth"
     },
     "/_auth/settings": {
