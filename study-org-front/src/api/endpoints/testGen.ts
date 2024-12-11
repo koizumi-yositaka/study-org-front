@@ -71,7 +71,12 @@ export const useGetHealthQueryOptions = <
     Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>
   > = ({ signal }) => getHealth(signal);
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+  return {
+    queryKey,
+    queryFn,
+    staleTime: 30000,
+    ...queryOptions,
+  } as UseQueryOptions<
     Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>,
     TError,
     TData
@@ -183,7 +188,12 @@ export const useGetHealthSuspenseQueryOptions = <
     Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>
   > = ({ signal }) => getHealth(signal);
 
-  return { queryKey, queryFn, ...queryOptions } as UseSuspenseQueryOptions<
+  return {
+    queryKey,
+    queryFn,
+    staleTime: 30000,
+    ...queryOptions,
+  } as UseSuspenseQueryOptions<
     Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>,
     TError,
     TData
@@ -301,7 +311,12 @@ export const useGetUserRoleQueryOptions = <
     Awaited<ReturnType<ReturnType<typeof useGetUserRoleHook>>>
   > = ({ signal }) => getUserRole(signal);
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+  return {
+    queryKey,
+    queryFn,
+    staleTime: 30000,
+    ...queryOptions,
+  } as UseQueryOptions<
     Awaited<ReturnType<ReturnType<typeof useGetUserRoleHook>>>,
     TError,
     TData
@@ -413,7 +428,12 @@ export const useGetUserRoleSuspenseQueryOptions = <
     Awaited<ReturnType<ReturnType<typeof useGetUserRoleHook>>>
   > = ({ signal }) => getUserRole(signal);
 
-  return { queryKey, queryFn, ...queryOptions } as UseSuspenseQueryOptions<
+  return {
+    queryKey,
+    queryFn,
+    staleTime: 30000,
+    ...queryOptions,
+  } as UseSuspenseQueryOptions<
     Awaited<ReturnType<ReturnType<typeof useGetUserRoleHook>>>,
     TError,
     TData
@@ -823,7 +843,12 @@ export const useGetMeetingQueryOptions = <
     Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>
   > = ({ signal }) => getMeeting(signal);
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+  return {
+    queryKey,
+    queryFn,
+    staleTime: 30000,
+    ...queryOptions,
+  } as UseQueryOptions<
     Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>,
     TError,
     TData
@@ -935,7 +960,12 @@ export const useGetMeetingSuspenseQueryOptions = <
     Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>
   > = ({ signal }) => getMeeting(signal);
 
-  return { queryKey, queryFn, ...queryOptions } as UseSuspenseQueryOptions<
+  return {
+    queryKey,
+    queryFn,
+    staleTime: 30000,
+    ...queryOptions,
+  } as UseSuspenseQueryOptions<
     Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>,
     TError,
     TData
@@ -1141,6 +1171,7 @@ export const useGetMeetingMeetingIdQueryOptions = <
     queryKey,
     queryFn,
     enabled: !!meetingId,
+    staleTime: 30000,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>,
@@ -1272,7 +1303,12 @@ export const useGetMeetingMeetingIdSuspenseQueryOptions = <
     Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>
   > = ({ signal }) => getMeetingMeetingId(meetingId, signal);
 
-  return { queryKey, queryFn, ...queryOptions } as UseSuspenseQueryOptions<
+  return {
+    queryKey,
+    queryFn,
+    staleTime: 30000,
+    ...queryOptions,
+  } as UseSuspenseQueryOptions<
     Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>,
     TError,
     TData

@@ -13,6 +13,8 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { Link, LinkComponent, LinkProps } from "@tanstack/react-router";
+import { useRecoilValue } from "recoil";
+import { LoginEmailState } from "@/state/auth";
  
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -53,9 +55,12 @@ const components: { title: string; href: string; description: string }[] = [
 ]
  
 export function HeaderComp() {
+  const email = useRecoilValue(LoginEmailState)
   return (
     <div className="flex justify-between items-center sticky top-0">
-      <div></div>
+      <div>
+{email}
+      </div>
       <div className="pr-4">
     <NavigationMenu >
       <NavigationMenuList>

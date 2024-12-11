@@ -18,6 +18,9 @@ export default defineConfig({
         query: {
            useSuspenseQuery: true,
            version: 5,
+           options: {
+             staleTime: 30000 // Default `staleTime` for queries (e.g., 5 minutes)
+           }
          },
       }
     },

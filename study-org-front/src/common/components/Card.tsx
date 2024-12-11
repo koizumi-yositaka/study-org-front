@@ -30,9 +30,9 @@ export const Card = ({topImage,header,content,footer,clickEvent}:CardProps) => {
     <button onClick={clickHandler}>
         <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900">{header}</h5>
     </button>
-    <p className="mb-3 font-normal text-gray-500 dark:text-gray-400">
+    <div className="mb-3 font-normal text-gray-500 dark:text-gray-400">
         {content}
-    </p>
+    </div>
     {footer}
 </div>
 

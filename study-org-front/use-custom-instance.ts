@@ -4,7 +4,7 @@ export const AXIOS_INSTANCE = Axios.create({
     baseURL: 'http://localhost:8080/',  
     headers: {
     'Content-Type': 'application/json',
-    }});
+    },withCredentials: true});
 
 export const useCustomInstance = <T>(): ((
   config: AxiosRequestConfig,

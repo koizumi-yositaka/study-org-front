@@ -1,9 +1,10 @@
 import { useRecoilCallback, useRecoilValue } from "recoil"
-import { AuthState } from "../../state/auth"
+import { AuthState, LoginEmailState, RoleState } from "../../state/auth"
 import { redirect, useNavigate } from "@tanstack/react-router"
+import { UserResponseDTO } from "@/api/model"
 
 export interface UseAuthResponse {
-    login:()=>void,
+    login:(data:UserResponseDTO)=>void,
     logout:()=>void,
     isLogged:()=>boolean
 
@@ -12,9 +13,11 @@ export interface UseAuthResponse {
 const useAuth = ():UseAuthResponse=>{
     const islogin = useRecoilValue(AuthState)
     
-    const login = useRecoilCallback(({set})=>()=>{
+    const login = useRecoilCallback(({set})=>(data:UserResponseDTO)=>{
 
         set(AuthState,true)
+        set(LoginEmailState,data.email)
+        set(RoleState,data.role)
     })
     const logout = useRecoilCallback(({reset})=>()=>{
         
@@ -22,6 +25,8 @@ const useAuth = ():UseAuthResponse=>{
             //await logoutAPi()
             console.log("logout")      
             reset(AuthState)
+            reset(LoginEmailState)
+            reset(RoleState)
             
 
         }catch(err){

@@ -32,7 +32,7 @@ const items = [
   },
   {
     title: "users",
-    to: "/users",
+    to: "/meetings/2",
     icon: Search,
   },
   {

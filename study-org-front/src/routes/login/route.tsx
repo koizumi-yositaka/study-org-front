@@ -4,7 +4,7 @@ import useAuth from '../-hooks/useAuth'
 import { LabelAndErrorMsgWrapper } from '../_auth/-components/LabelAndErrorMsgWrapper';
 import { InputText } from '../../common/components/InputText';
 import { UserInputs, useUserForm } from '../-hooks/useUserForm';
-import { usePostUserLogin } from '@/api/endpoints/testGen';
+import { useUserService } from '@/service/user/useUserService';
  
 export const Route = createFileRoute('/login')({
   component: RouteComponent,
@@ -13,15 +13,8 @@ export const Route = createFileRoute('/login')({
 function RouteComponent() {
   //login状態
   const {login,isLogged} = useAuth();
-  const {mutateAsync,data,isPending} = usePostUserLogin({
-    mutation:{
-    onSuccess: (data) => {
-      console.log('Login success:', data);
-    },
-    onError: (error) => {
-      console.error('Login error:', error);
-    },
-  }});
+  const {callLogin} = useUserService()
+  const {data,isPending,mutateAsync}=callLogin()
 
   //const {formRender} = useCustomForm({validationSchema,formSchema})
   const navi =useNavigate()
@@ -35,8 +28,9 @@ function RouteComponent() {
  
   const clickHandler=async (data:UserInputs)=>{
     console.log(data)
-    await mutateAsync({ data: { email: 'admin@example.com', password: 'pass' } });
-    login()
+    const result = await mutateAsync({ data: { email: 'admin@example.com', password: 'pass' } });
+    console.log("login",result)
+    login(result)
     navi({"to":"/home"})
   }
   return (
