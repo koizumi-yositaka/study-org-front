@@ -10,8 +10,16 @@
  * ログイン時のユーザー情報
  */
 export interface LoginUserForm {
-  /** ログインEmail */
+  /**
+   * ログインEmail
+   * @minLength 1
+   * @maxLength 100
+   */
   email: string;
-  /** パスワード */
+  /**
+   * パスワード
+   * @minLength 1
+   * @maxLength 100
+   */
   password: string;
 }

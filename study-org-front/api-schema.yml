@@ -6,7 +6,7 @@ info:
 tags:
   - name: opts
     description: 運用監視関連のAPI
-  - name: users
+  - name: user
     description: ユーザー管理
   - name: meeting
     description: ミーティング
@@ -18,13 +18,15 @@ paths:
     get:
       tags:
         - opts
+      operationId: checkHealth
       responses:
         '200':
           description: OK
   /user/role:
     get:
       tags:
-        - opts
+        - user
+      operationId: getUserRole
       responses:
         '200':
           description: OK
@@ -39,7 +41,8 @@ paths:
   /user/signup:
     post:
       tags:
-        - users
+        - user
+      operationId: signUp
       requestBody:
         required: true
         content:
@@ -61,7 +64,8 @@ paths:
                 $ref: "#/components/schemas/ResourceNotFoundError"
     put:
       tags:
-        - users
+        - user
+      operationId: changePassword
       requestBody:
         required: true
         content:
@@ -84,7 +88,8 @@ paths:
   /user/login:
     post:
       tags:
-        - users
+        - user
+      operationId: login
       requestBody:
         required: true
         content:
@@ -126,6 +131,27 @@ paths:
     get:
       tags:
         - meeting
+      operationId: searchMeetings
+      parameters:
+        - name: searchForm
+          in: query
+          required: false
+          description: 検索パラむ
+          schema:
+            $ref: "#/components/schemas/MeetingSearchForm"
+        - name: pagination
+          in: query
+          required: false
+          description: ページネーション
+          schema:
+            $ref: "#/components/schemas/Pagination"
+
+        - name: orderProp
+          in: query
+          required: false
+          description: Order
+          schema:
+            $ref: "#/components/schemas/OrderProp"
       responses:
         '200':
           description: 会議一覧
@@ -136,6 +162,7 @@ paths:
     post:
       tags:
         - meetings
+      operationId: reserveMeeting
       requestBody:
         required: true
         content:
@@ -155,10 +182,17 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BadRequestError"
+        409:
+          description: Request Conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConflictError"
   /meeting/{meetingId}:
     get:
       tags:
         - meetings
+      operationId: getMeetingByID
       parameters:
         - name: meetingId
           in: path
@@ -190,6 +224,7 @@ paths:
     put:
       tags:
         - meeting
+      operationId: updateMeeting
       parameters:
         - name: meetingId
           in: path
@@ -231,10 +266,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResourceNotFoundError"
+        409:
+          description: Request Conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConflictError"
     delete:
       description: 要素の削除
+
       tags:
         - meetings
+      operationId: cancelMeeting
       parameters:
         - name: meetingId
           in: path
@@ -261,14 +304,48 @@ paths:
                 $ref: "#/components/schemas/ResourceNotFoundError"
 components:
   schemas:
+    Pagination:
+      type: object
+      properties:
+        total:
+          type: integer
+          description: total count of search results in DB
+          minimum: 0
+          example: 12345
+        offset:
+          type: integer
+          description: starting position to fetch, same as first item index in the page
+          minimum: 0
+          example: 200
+        limit:
+          type: integer
+          description: max count that can be rerieved from DB at once, same as item count per page
+          minimum: 0
+          example: 50
+    OrderProp:
+      type: object
+      properties:
+        property:
+          description: ソートするフィールド名
+          type: string
+        direction:
+          type: string
+          description: ソートする順序
+          default: asc
     LoginUserForm:
       description: ログイン時のユーザー情報
       properties:
         email:
           type: string
           description: "ログインEmail"
+          minLength: 1
+          maxLength: 100
+          example: sample@test.com
         password:
           type: string
+          minLength: 1
+          maxLength: 100
+          example: sample@test.com
           description: "パスワード"
       required:
         - email
@@ -281,7 +358,10 @@ components:
           description: "ROLE"
         email:
           type: string
-          description: "email"
+          description: "ログインEmail"
+          minLength: 1
+          maxLength: 100
+          example: sample@test.com
       required:
         - role
         - email
@@ -290,9 +370,13 @@ components:
       properties:
         title:
           type: string
-          description: "メーティング名"
+          minLength: 1
+          maxLength: 100
+          description: "ミーティング名"
         detail:
           type: string
+          minLength: 1
+          maxLength: 500
           description: "詳細情報"
         openerId:
           type: integer
@@ -300,21 +384,50 @@ components:
           description: "開催者ID"
         eventDate:
           type: string
-          format: date-time
-          description: "開催日時"
-          example: '2017-07-21T17:32:28Z'
-        duration_minutes:
-          type: integer
-          format: int32
-          default: 60
-          description: "会議時間"
+          format: date
+          description: "開催日"
+          example: '2017-07-21'
+        startTime:
+          type: string
+          maxLength: 5
+          description: "開始時間"
+          example: '1700'
+        endTime:
+          type: string
+          maxLength: 5
+          description: "終了時間"
+          example: '1800'
       required:
         - email
         - password
         - openerId
         - eventDate
+        - startTime
+        - endTime
+    MeetingSearchForm:
+      description: ミーティング登録用
+      properties:
+        searchWord:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: "検索文字"
+        searchStartDate:
+          type: string
+          format: date
+          description: "検索開始"
+        searchEndDate:
+          type: string
+          format: date
+          description: "検索終了"
+        searchOpenerId:
+          type: array
+          description: "開催者IDList"
+          items:
+            type: integer
+            format: int64
     MeetingResponseDTO:
-      description: メーティングの結果情報
+      description: ミーティングの結果情報
       properties:
         id:
           type: integer
@@ -323,9 +436,34 @@ components:
         title:
           type: string
           description: "title"
+        detail:
+          type: string
+          description: "detail"
+        openerId:
+          type: integer
+          format: int64
+          description: "開催者ID"
+        eventDate:
+          type: string
+          format: date
+          description: "開催日"
+          example: '2017-07-21'
+        startTime:
+          type: string
+          description: "開始時間"
+          example: '1700'
+        endTime:
+          type: string
+          description: "終了時間"
+          example: '1800'
       required:
         - id
         - title
+        - detail
+        - openerId
+        - eventDate
+        - startTime
+        - endTime
     MeetingResponseDTOList:
       type: object
       description: ミーティングのリスト
@@ -344,6 +482,20 @@ components:
           type: string
           description: "エラーのタイプ"
           default: "パスワードが違います"
+        detail:
+          type: string
+          description: "エラーの詳細"
+      required:
+        - title
+        - detail
+    ConflictError:
+      description: "409"
+      type: object
+      properties:
+        title:
+          type: string
+          description: ""
+          default: "予約が重複"
         detail:
           type: string
           description: "エラーの詳細"
@@ -393,7 +545,6 @@ components:
       required:
         - name
         - reason
-
 
 
 

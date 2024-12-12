@@ -10,14 +10,30 @@
  * ミーティング登録用
  */
 export interface MeetingForm {
-  /** 詳細情報 */
+  /**
+   * 詳細情報
+   * @minLength 1
+   * @maxLength 500
+   */
   detail?: string;
-  /** 会議時間 */
-  duration_minutes?: number;
-  /** 開催日時 */
+  /**
+   * 終了時間
+   * @maxLength 5
+   */
+  endTime: string;
+  /** 開催日 */
   eventDate: string;
   /** 開催者ID */
   openerId: number;
-  /** メーティング名 */
+  /**
+   * 開始時間
+   * @maxLength 5
+   */
+  startTime: string;
+  /**
+   * ミーティング名
+   * @minLength 1
+   * @maxLength 100
+   */
   title?: string;
 }

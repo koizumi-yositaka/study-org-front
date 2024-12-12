@@ -7,11 +7,21 @@
  */
 
 /**
- * メーティングの結果情報
+ * ミーティングの結果情報
  */
 export interface MeetingResponseDTO {
+  /** detail */
+  detail: string;
+  /** 終了時間 */
+  endTime: string;
+  /** 開催日 */
+  eventDate: string;
   /** ID */
   id: number;
+  /** 開催者ID */
+  openerId: number;
+  /** 開始時間 */
+  startTime: string;
   /** title */
   title: string;
 }

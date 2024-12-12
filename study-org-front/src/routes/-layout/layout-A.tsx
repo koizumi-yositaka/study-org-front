@@ -1,6 +1,5 @@
 import { ReactNode } from "react"
 
-import { Outlet } from "@tanstack/react-router"
 import SideBar from "../_auth/-components/SideBar"
 
 
@@ -30,6 +29,7 @@ export const LayoutA = ({header,content,footer}:LayoutProps) => {
                 </div>
                 
             </div>
+            {footer}
         </div>
         
         

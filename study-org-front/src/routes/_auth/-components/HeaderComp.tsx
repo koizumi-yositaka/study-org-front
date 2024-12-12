@@ -12,7 +12,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
-import { Link, LinkComponent, LinkProps } from "@tanstack/react-router";
+import { Link, LinkProps } from "@tanstack/react-router";
 import { useRecoilValue } from "recoil";
 import { LoginEmailState } from "@/state/auth";
  

@@ -1,6 +1,6 @@
-import * as React from 'react'
-import { createFileRoute, Link, redirect } from '@tanstack/react-router'
-import { TestButton } from '../common/components/TestButton'
+
+import { createFileRoute, redirect } from '@tanstack/react-router'
+
 
 export const Route = createFileRoute('/')({
     beforeLoad:()=>{

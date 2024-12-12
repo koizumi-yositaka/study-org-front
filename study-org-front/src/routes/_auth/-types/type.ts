@@ -1,4 +1,4 @@
-import { LinkFactoryProp } from "../../../utils/linkFactory"
+
 
 export type SideBarObjType ={
     to:string,
@@ -10,8 +10,4 @@ export type SideBarObjType ={
 
 export type HeaderComposeType={
 
-}
-
-export interface HeaderMenuType extends LinkFactoryProp{
-    itemsInfo:LinkFactoryProp[]
 }

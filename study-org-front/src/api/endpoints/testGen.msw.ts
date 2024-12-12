@@ -21,7 +21,7 @@ export const getGetUserRoleResponseMock = (
   ...overrideResponse,
 });
 
-export const getPostUserSignupResponseMock = (
+export const getSignUpResponseMock = (
   overrideResponse: Partial<UserResponseDTO> = {},
 ): UserResponseDTO => ({
   email: faker.string.alpha(20),
@@ -29,7 +29,7 @@ export const getPostUserSignupResponseMock = (
   ...overrideResponse,
 });
 
-export const getPutUserSignupResponseMock = (
+export const getChangePasswordResponseMock = (
   overrideResponse: Partial<UserResponseDTO> = {},
 ): UserResponseDTO => ({
   email: faker.string.alpha(20),
@@ -37,7 +37,7 @@ export const getPutUserSignupResponseMock = (
   ...overrideResponse,
 });
 
-export const getPostUserLoginResponseMock = (
+export const getLoginResponseMock = (
   overrideResponse: Partial<UserResponseDTO> = {},
 ): UserResponseDTO => ({
   email: faker.string.alpha(20),
@@ -45,44 +45,64 @@ export const getPostUserLoginResponseMock = (
   ...overrideResponse,
 });
 
-export const getGetMeetingResponseMock = (
+export const getSearchMeetingsResponseMock = (
   overrideResponse: Partial<MeetingResponseDTOList> = {},
 ): MeetingResponseDTOList => ({
   results: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
+    detail: faker.string.alpha(20),
+    endTime: faker.string.alpha(20),
+    eventDate: faker.date.past().toISOString().split("T")[0],
     id: faker.number.int({ min: undefined, max: undefined }),
+    openerId: faker.number.int({ min: undefined, max: undefined }),
+    startTime: faker.string.alpha(20),
     title: faker.string.alpha(20),
   })),
   ...overrideResponse,
 });
 
-export const getPostMeetingResponseMock = (
+export const getReserveMeetingResponseMock = (
   overrideResponse: Partial<MeetingResponseDTO> = {},
 ): MeetingResponseDTO => ({
+  detail: faker.string.alpha(20),
+  endTime: faker.string.alpha(20),
+  eventDate: faker.date.past().toISOString().split("T")[0],
   id: faker.number.int({ min: undefined, max: undefined }),
+  openerId: faker.number.int({ min: undefined, max: undefined }),
+  startTime: faker.string.alpha(20),
   title: faker.string.alpha(20),
   ...overrideResponse,
 });
 
-export const getGetMeetingMeetingIdResponseMock = (
+export const getGetMeetingByIDResponseMock = (
   overrideResponse: Partial<MeetingResponseDTO> = {},
 ): MeetingResponseDTO => ({
+  detail: faker.string.alpha(20),
+  endTime: faker.string.alpha(20),
+  eventDate: faker.date.past().toISOString().split("T")[0],
   id: faker.number.int({ min: undefined, max: undefined }),
+  openerId: faker.number.int({ min: undefined, max: undefined }),
+  startTime: faker.string.alpha(20),
   title: faker.string.alpha(20),
   ...overrideResponse,
 });
 
-export const getPutMeetingMeetingIdResponseMock = (
+export const getUpdateMeetingResponseMock = (
   overrideResponse: Partial<MeetingResponseDTO> = {},
 ): MeetingResponseDTO => ({
+  detail: faker.string.alpha(20),
+  endTime: faker.string.alpha(20),
+  eventDate: faker.date.past().toISOString().split("T")[0],
   id: faker.number.int({ min: undefined, max: undefined }),
+  openerId: faker.number.int({ min: undefined, max: undefined }),
+  startTime: faker.string.alpha(20),
   title: faker.string.alpha(20),
   ...overrideResponse,
 });
 
-export const getGetHealthMockHandler = (
+export const getCheckHealthMockHandler = (
   overrideResponse?:
     | void
     | ((
@@ -121,7 +141,7 @@ export const getGetUserRoleMockHandler = (
   });
 };
 
-export const getPostUserSignupMockHandler = (
+export const getSignUpMockHandler = (
   overrideResponse?:
     | UserResponseDTO
     | ((
@@ -137,14 +157,14 @@ export const getPostUserSignupMockHandler = (
           ? typeof overrideResponse === "function"
             ? await overrideResponse(info)
             : overrideResponse
-          : getPostUserSignupResponseMock(),
+          : getSignUpResponseMock(),
       ),
       { status: 201, headers: { "Content-Type": "application/json" } },
     );
   });
 };
 
-export const getPutUserSignupMockHandler = (
+export const getChangePasswordMockHandler = (
   overrideResponse?:
     | UserResponseDTO
     | ((
@@ -160,14 +180,14 @@ export const getPutUserSignupMockHandler = (
           ? typeof overrideResponse === "function"
             ? await overrideResponse(info)
             : overrideResponse
-          : getPutUserSignupResponseMock(),
+          : getChangePasswordResponseMock(),
       ),
       { status: 200, headers: { "Content-Type": "application/json" } },
     );
   });
 };
 
-export const getPostUserLoginMockHandler = (
+export const getLoginMockHandler = (
   overrideResponse?:
     | UserResponseDTO
     | ((
@@ -183,7 +203,7 @@ export const getPostUserLoginMockHandler = (
           ? typeof overrideResponse === "function"
             ? await overrideResponse(info)
             : overrideResponse
-          : getPostUserLoginResponseMock(),
+          : getLoginResponseMock(),
       ),
       { status: 200, headers: { "Content-Type": "application/json" } },
     );
@@ -206,7 +226,7 @@ export const getPostUserManageMockHandler = (
   });
 };
 
-export const getGetMeetingMockHandler = (
+export const getSearchMeetingsMockHandler = (
   overrideResponse?:
     | MeetingResponseDTOList
     | ((
@@ -222,14 +242,14 @@ export const getGetMeetingMockHandler = (
           ? typeof overrideResponse === "function"
             ? await overrideResponse(info)
             : overrideResponse
-          : getGetMeetingResponseMock(),
+          : getSearchMeetingsResponseMock(),
       ),
       { status: 200, headers: { "Content-Type": "application/json" } },
     );
   });
 };
 
-export const getPostMeetingMockHandler = (
+export const getReserveMeetingMockHandler = (
   overrideResponse?:
     | MeetingResponseDTO
     | ((
@@ -245,14 +265,14 @@ export const getPostMeetingMockHandler = (
           ? typeof overrideResponse === "function"
             ? await overrideResponse(info)
             : overrideResponse
-          : getPostMeetingResponseMock(),
+          : getReserveMeetingResponseMock(),
       ),
       { status: 201, headers: { "Content-Type": "application/json" } },
     );
   });
 };
 
-export const getGetMeetingMeetingIdMockHandler = (
+export const getGetMeetingByIDMockHandler = (
   overrideResponse?:
     | MeetingResponseDTO
     | ((
@@ -268,14 +288,14 @@ export const getGetMeetingMeetingIdMockHandler = (
           ? typeof overrideResponse === "function"
             ? await overrideResponse(info)
             : overrideResponse
-          : getGetMeetingMeetingIdResponseMock(),
+          : getGetMeetingByIDResponseMock(),
       ),
       { status: 200, headers: { "Content-Type": "application/json" } },
     );
   });
 };
 
-export const getPutMeetingMeetingIdMockHandler = (
+export const getUpdateMeetingMockHandler = (
   overrideResponse?:
     | MeetingResponseDTO
     | ((
@@ -291,14 +311,14 @@ export const getPutMeetingMeetingIdMockHandler = (
           ? typeof overrideResponse === "function"
             ? await overrideResponse(info)
             : overrideResponse
-          : getPutMeetingMeetingIdResponseMock(),
+          : getUpdateMeetingResponseMock(),
       ),
       { status: 200, headers: { "Content-Type": "application/json" } },
     );
   });
 };
 
-export const getDeleteMeetingMeetingIdMockHandler = (
+export const getCancelMeetingMockHandler = (
   overrideResponse?:
     | void
     | ((
@@ -314,15 +334,15 @@ export const getDeleteMeetingMeetingIdMockHandler = (
   });
 };
 export const getProductApiDocMock = () => [
-  getGetHealthMockHandler(),
+  getCheckHealthMockHandler(),
   getGetUserRoleMockHandler(),
-  getPostUserSignupMockHandler(),
-  getPutUserSignupMockHandler(),
-  getPostUserLoginMockHandler(),
+  getSignUpMockHandler(),
+  getChangePasswordMockHandler(),
+  getLoginMockHandler(),
   getPostUserManageMockHandler(),
-  getGetMeetingMockHandler(),
-  getPostMeetingMockHandler(),
-  getGetMeetingMeetingIdMockHandler(),
-  getPutMeetingMeetingIdMockHandler(),
-  getDeleteMeetingMeetingIdMockHandler(),
+  getSearchMeetingsMockHandler(),
+  getReserveMeetingMockHandler(),
+  getGetMeetingByIDMockHandler(),
+  getUpdateMeetingMockHandler(),
+  getCancelMeetingMockHandler(),
 ];

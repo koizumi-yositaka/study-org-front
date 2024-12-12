@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 export const Route = createFileRoute('/_auth/CCCC')({

@@ -1,5 +1,4 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { TestButton } from "../common/components/TestButton";
 import { InformationCard } from "../common/components/InformationCard";
 
 const meta :Meta<typeof InformationCard>={

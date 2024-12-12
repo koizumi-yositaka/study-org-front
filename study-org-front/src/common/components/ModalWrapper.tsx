@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import  { useCallback } from 'react'
 import {
 	  
 	AlertDialog,
@@ -7,13 +7,13 @@ import {
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogTitle,
-  AlertDialogTrigger,
+
 } from "@/components/ui/alert-dialog"
 import { ReactNode } from '@tanstack/react-router';
 import { ModalType, ModalVisibilityState } from '@/state/modalState';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { AlertDialogFooter, AlertDialogHeader } from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
+
 
 interface ModalWrapper {
 	title:string,

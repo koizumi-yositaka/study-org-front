@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { TestButton } from '../../common/components/TestButton'
 import useAuth from '../-hooks/useAuth'
 import { LabelAndErrorMsgWrapper } from '../_auth/-components/LabelAndErrorMsgWrapper';
@@ -14,13 +14,12 @@ function RouteComponent() {
   //login状態
   const {login,isLogged} = useAuth();
   const {callLogin} = useUserService()
-  const {data,isPending,mutateAsync}=callLogin()
+  const {isPending,mutateAsync}=callLogin()
 
   //const {formRender} = useCustomForm({validationSchema,formSchema})
   const navi =useNavigate()
   const {        
-    register,
-        setValue,
+        register,
         errors,
         isValid,
         handleSubmit

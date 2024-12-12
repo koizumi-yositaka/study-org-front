@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import { ContentCard } from '@/common/components/ContentCard'
 import { TestButton } from '@/common/components/TestButton'

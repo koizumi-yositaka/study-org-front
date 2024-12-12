@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Outlet, createRootRoute, createRootRouteWithContext } from '@tanstack/react-router'
+import { Outlet, createRootRouteWithContext } from '@tanstack/react-router'
 import { AuthContext } from './-hooks/useAuth';
 
 export const Route = createRootRouteWithContext<RouterContext>()({
@@ -19,3 +19,5 @@ function RootComponent() {
     </React.Fragment>
   )
 }
+
+

@@ -1,4 +1,4 @@
-import { LinkProps, redirect, useNavigate } from "@tanstack/react-router"
+import { LinkProps, useNavigate } from "@tanstack/react-router"
 import { cva, VariantProps } from "class-variance-authority"
 import { AnchorHTMLAttributes, ReactNode, useState } from "react"
 import { HeaderMenuLink, HeaderMenuLinkProps } from "./HeaderCompMenuLink"

@@ -2,11 +2,6 @@ import { atom, DefaultValue, selector } from "recoil";
 
 
 
-interface UserInfo {
-    email:string, 
-    role:string, //TODO ENUM
-    isLogin:boolean
-}
 
 
 export const AuthState = atom<boolean>({

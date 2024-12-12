@@ -4,8 +4,6 @@ import { routeTree } from './routeTree.gen';
 import { Suspense, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { useRecoilValue } from 'recoil';
-import { AuthSelector} from './state/auth';
 import { DesignContext } from './context/designContext';
 import useAuth from './routes/-hooks/useAuth';
 import { Toaster } from './components/ui/toaster';
@@ -33,7 +31,7 @@ const defaultDesign:DesignContext={
     variant:"normal",
     isDummy:false
 }
-const [design,setDesign]=useState<DesignContext>(defaultDesign)
+const [design]=useState<DesignContext>(defaultDesign)
 console.log("here",design)
   return (
 <DesignContext.Provider value={design}>

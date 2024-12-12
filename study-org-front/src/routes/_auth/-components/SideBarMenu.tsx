@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import { cva, VariantProps } from 'class-variance-authority'
-import React, { AnchorHTMLAttributes } from 'react'
+import  { AnchorHTMLAttributes } from 'react'
 import { SVGComponent } from '../../../common/components/SVGComponent'
 
 

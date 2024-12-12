@@ -1,8 +1,8 @@
-import { usePostUserLogin } from "@/api/endpoints/testGen";
+import { useLogin } from "@/api/endpoints/testGen";
 
 export const useUserService=()=>{
     const callLogin=()=>{
-          return usePostUserLogin({
+          return useLogin({
             mutation:{
             onSuccess: (data) => {
             console.log('Login success:', data);

@@ -10,7 +10,11 @@
  * ログイン時の結果情報
  */
 export interface UserResponseDTO {
-  /** email */
+  /**
+   * ログインEmail
+   * @minLength 1
+   * @maxLength 100
+   */
   email: string;
   /** ROLE */
   role: string;

@@ -1,6 +1,5 @@
-import { Link } from '@tanstack/react-router'
 import { cva, VariantProps } from 'class-variance-authority'
-import React, { AnchorHTMLAttributes, useState } from 'react'
+import { AnchorHTMLAttributes, useState } from 'react'
 import { SVGComponent } from '../../../common/components/SVGComponent'
 import { SideBarObjType } from '../-types/type'
 import { SideBarMenu } from './SideBarMenu'
@@ -25,7 +24,7 @@ const sideBarMultiVariants = cva("flex items-center p-2 rounded-lg group text-ba
   }
 })
 
-export const SideBarMulti = ({className,svgKey,variant,contents,label,rightLabel}:SideBarMultiProps) => {
+export const SideBarMulti = ({className,svgKey,variant,contents,label}:SideBarMultiProps) => {
     const [isOpen,setIsOpen] = useState<boolean>(false)
     const clickHandler =()=>{
         setIsOpen((prev) => !prev)

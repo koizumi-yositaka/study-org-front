@@ -24,38 +24,40 @@ import type {
 import { useCallback } from "react";
 import type {
   BadRequestError,
+  ConflictError,
   ForbiddenError,
   LoginUserForm,
   MeetingForm,
   MeetingResponseDTO,
   MeetingResponseDTOList,
   ResourceNotFoundError,
+  SearchMeetingsParams,
   UserResponseDTO,
 } from "../model";
 import { useCustomInstance } from "../../../use-custom-instance";
 
-export const useGetHealthHook = () => {
-  const getHealth = useCustomInstance<void>();
+export const useCheckHealthHook = () => {
+  const checkHealth = useCustomInstance<void>();
 
   return useCallback(
     (signal?: AbortSignal) => {
-      return getHealth({ url: `/health`, method: "GET", signal });
+      return checkHealth({ url: `/health`, method: "GET", signal });
     },
-    [getHealth],
+    [checkHealth],
   );
 };
 
-export const getGetHealthQueryKey = () => {
+export const getCheckHealthQueryKey = () => {
   return [`/health`] as const;
 };
 
-export const useGetHealthQueryOptions = <
-  TData = Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>,
+export const useCheckHealthQueryOptions = <
+  TData = Awaited<ReturnType<ReturnType<typeof useCheckHealthHook>>>,
   TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
-      Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>,
+      Awaited<ReturnType<ReturnType<typeof useCheckHealthHook>>>,
       TError,
       TData
     >
@@ -63,13 +65,13 @@ export const useGetHealthQueryOptions = <
 }) => {
   const { query: queryOptions } = options ?? {};
 
-  const queryKey = queryOptions?.queryKey ?? getGetHealthQueryKey();
+  const queryKey = queryOptions?.queryKey ?? getCheckHealthQueryKey();
 
-  const getHealth = useGetHealthHook();
+  const checkHealth = useCheckHealthHook();
 
   const queryFn: QueryFunction<
-    Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>
-  > = ({ signal }) => getHealth(signal);
+    Awaited<ReturnType<ReturnType<typeof useCheckHealthHook>>>
+  > = ({ signal }) => checkHealth(signal);
 
   return {
     queryKey,
@@ -77,31 +79,31 @@ export const useGetHealthQueryOptions = <
     staleTime: 30000,
     ...queryOptions,
   } as UseQueryOptions<
-    Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>,
+    Awaited<ReturnType<ReturnType<typeof useCheckHealthHook>>>,
     TError,
     TData
   > & { queryKey: DataTag<QueryKey, TData> };
 };
 
-export type GetHealthQueryResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>
+export type CheckHealthQueryResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useCheckHealthHook>>>
 >;
-export type GetHealthQueryError = unknown;
+export type CheckHealthQueryError = unknown;
 
-export function useGetHealth<
-  TData = Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>,
+export function useCheckHealth<
+  TData = Awaited<ReturnType<ReturnType<typeof useCheckHealthHook>>>,
   TError = unknown,
 >(options: {
   query: Partial<
     UseQueryOptions<
-      Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>,
+      Awaited<ReturnType<ReturnType<typeof useCheckHealthHook>>>,
       TError,
       TData
     >
   > &
     Pick<
       DefinedInitialDataOptions<
-        Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>,
+        Awaited<ReturnType<ReturnType<typeof useCheckHealthHook>>>,
         TError,
         TData
       >,
@@ -110,52 +112,52 @@ export function useGetHealth<
 }): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData>;
 };
-export function useGetHealth<
-  TData = Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>,
+export function useCheckHealth<
+  TData = Awaited<ReturnType<ReturnType<typeof useCheckHealthHook>>>,
   TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
-      Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>,
+      Awaited<ReturnType<ReturnType<typeof useCheckHealthHook>>>,
       TError,
       TData
     >
   > &
     Pick<
       UndefinedInitialDataOptions<
-        Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>,
+        Awaited<ReturnType<ReturnType<typeof useCheckHealthHook>>>,
         TError,
         TData
       >,
       "initialData"
     >;
 }): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
-export function useGetHealth<
-  TData = Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>,
+export function useCheckHealth<
+  TData = Awaited<ReturnType<ReturnType<typeof useCheckHealthHook>>>,
   TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
-      Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>,
+      Awaited<ReturnType<ReturnType<typeof useCheckHealthHook>>>,
       TError,
       TData
     >
   >;
 }): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
 
-export function useGetHealth<
-  TData = Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>,
+export function useCheckHealth<
+  TData = Awaited<ReturnType<ReturnType<typeof useCheckHealthHook>>>,
   TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
-      Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>,
+      Awaited<ReturnType<ReturnType<typeof useCheckHealthHook>>>,
       TError,
       TData
     >
   >;
 }): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
-  const queryOptions = useGetHealthQueryOptions(options);
+  const queryOptions = useCheckHealthQueryOptions(options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: DataTag<QueryKey, TData>;
@@ -166,13 +168,13 @@ export function useGetHealth<
   return query;
 }
 
-export const useGetHealthSuspenseQueryOptions = <
-  TData = Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>,
+export const useCheckHealthSuspenseQueryOptions = <
+  TData = Awaited<ReturnType<ReturnType<typeof useCheckHealthHook>>>,
   TError = unknown,
 >(options?: {
   query?: Partial<
     UseSuspenseQueryOptions<
-      Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>,
+      Awaited<ReturnType<ReturnType<typeof useCheckHealthHook>>>,
       TError,
       TData
     >
@@ -180,13 +182,13 @@ export const useGetHealthSuspenseQueryOptions = <
 }) => {
   const { query: queryOptions } = options ?? {};
 
-  const queryKey = queryOptions?.queryKey ?? getGetHealthQueryKey();
+  const queryKey = queryOptions?.queryKey ?? getCheckHealthQueryKey();
 
-  const getHealth = useGetHealthHook();
+  const checkHealth = useCheckHealthHook();
 
   const queryFn: QueryFunction<
-    Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>
-  > = ({ signal }) => getHealth(signal);
+    Awaited<ReturnType<ReturnType<typeof useCheckHealthHook>>>
+  > = ({ signal }) => checkHealth(signal);
 
   return {
     queryKey,
@@ -194,24 +196,24 @@ export const useGetHealthSuspenseQueryOptions = <
     staleTime: 30000,
     ...queryOptions,
   } as UseSuspenseQueryOptions<
-    Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>,
+    Awaited<ReturnType<ReturnType<typeof useCheckHealthHook>>>,
     TError,
     TData
   > & { queryKey: DataTag<QueryKey, TData> };
 };
 
-export type GetHealthSuspenseQueryResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>
+export type CheckHealthSuspenseQueryResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useCheckHealthHook>>>
 >;
-export type GetHealthSuspenseQueryError = unknown;
+export type CheckHealthSuspenseQueryError = unknown;
 
-export function useGetHealthSuspense<
-  TData = Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>,
+export function useCheckHealthSuspense<
+  TData = Awaited<ReturnType<ReturnType<typeof useCheckHealthHook>>>,
   TError = unknown,
 >(options: {
   query: Partial<
     UseSuspenseQueryOptions<
-      Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>,
+      Awaited<ReturnType<ReturnType<typeof useCheckHealthHook>>>,
       TError,
       TData
     >
@@ -219,13 +221,13 @@ export function useGetHealthSuspense<
 }): UseSuspenseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData>;
 };
-export function useGetHealthSuspense<
-  TData = Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>,
+export function useCheckHealthSuspense<
+  TData = Awaited<ReturnType<ReturnType<typeof useCheckHealthHook>>>,
   TError = unknown,
 >(options?: {
   query?: Partial<
     UseSuspenseQueryOptions<
-      Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>,
+      Awaited<ReturnType<ReturnType<typeof useCheckHealthHook>>>,
       TError,
       TData
     >
@@ -233,13 +235,13 @@ export function useGetHealthSuspense<
 }): UseSuspenseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData>;
 };
-export function useGetHealthSuspense<
-  TData = Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>,
+export function useCheckHealthSuspense<
+  TData = Awaited<ReturnType<ReturnType<typeof useCheckHealthHook>>>,
   TError = unknown,
 >(options?: {
   query?: Partial<
     UseSuspenseQueryOptions<
-      Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>,
+      Awaited<ReturnType<ReturnType<typeof useCheckHealthHook>>>,
       TError,
       TData
     >
@@ -248,13 +250,13 @@ export function useGetHealthSuspense<
   queryKey: DataTag<QueryKey, TData>;
 };
 
-export function useGetHealthSuspense<
-  TData = Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>,
+export function useCheckHealthSuspense<
+  TData = Awaited<ReturnType<ReturnType<typeof useCheckHealthHook>>>,
   TError = unknown,
 >(options?: {
   query?: Partial<
     UseSuspenseQueryOptions<
-      Awaited<ReturnType<ReturnType<typeof useGetHealthHook>>>,
+      Awaited<ReturnType<ReturnType<typeof useCheckHealthHook>>>,
       TError,
       TData
     >
@@ -262,7 +264,7 @@ export function useGetHealthSuspense<
 }): UseSuspenseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData>;
 } {
-  const queryOptions = useGetHealthSuspenseQueryOptions(options);
+  const queryOptions = useCheckHealthSuspenseQueryOptions(options);
 
   const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<
     TData,
@@ -514,12 +516,12 @@ export function useGetUserRoleSuspense<
   return query;
 }
 
-export const usePostUserSignupHook = () => {
-  const postUserSignup = useCustomInstance<UserResponseDTO>();
+export const useSignUpHook = () => {
+  const signUp = useCustomInstance<UserResponseDTO>();
 
   return useCallback(
     (loginUserForm: LoginUserForm, signal?: AbortSignal) => {
-      return postUserSignup({
+      return signUp({
         url: `/user/signup`,
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -527,150 +529,150 @@ export const usePostUserSignupHook = () => {
         signal,
       });
     },
-    [postUserSignup],
+    [signUp],
   );
 };
 
-export const usePostUserSignupMutationOptions = <
+export const useSignUpMutationOptions = <
   TError = ResourceNotFoundError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<ReturnType<typeof usePostUserSignupHook>>>,
+    Awaited<ReturnType<ReturnType<typeof useSignUpHook>>>,
     TError,
     { data: LoginUserForm },
     TContext
   >;
 }): UseMutationOptions<
-  Awaited<ReturnType<ReturnType<typeof usePostUserSignupHook>>>,
+  Awaited<ReturnType<ReturnType<typeof useSignUpHook>>>,
   TError,
   { data: LoginUserForm },
   TContext
 > => {
   const { mutation: mutationOptions } = options ?? {};
 
-  const postUserSignup = usePostUserSignupHook();
+  const signUp = useSignUpHook();
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<ReturnType<typeof usePostUserSignupHook>>>,
+    Awaited<ReturnType<ReturnType<typeof useSignUpHook>>>,
     { data: LoginUserForm }
   > = (props) => {
     const { data } = props ?? {};
 
-    return postUserSignup(data);
+    return signUp(data);
   };
 
   return { mutationFn, ...mutationOptions };
 };
 
-export type PostUserSignupMutationResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof usePostUserSignupHook>>>
+export type SignUpMutationResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useSignUpHook>>>
 >;
-export type PostUserSignupMutationBody = LoginUserForm;
-export type PostUserSignupMutationError = ResourceNotFoundError;
+export type SignUpMutationBody = LoginUserForm;
+export type SignUpMutationError = ResourceNotFoundError;
 
-export const usePostUserSignup = <
+export const useSignUp = <
   TError = ResourceNotFoundError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<ReturnType<typeof usePostUserSignupHook>>>,
+    Awaited<ReturnType<ReturnType<typeof useSignUpHook>>>,
     TError,
     { data: LoginUserForm },
     TContext
   >;
 }): UseMutationResult<
-  Awaited<ReturnType<ReturnType<typeof usePostUserSignupHook>>>,
+  Awaited<ReturnType<ReturnType<typeof useSignUpHook>>>,
   TError,
   { data: LoginUserForm },
   TContext
 > => {
-  const mutationOptions = usePostUserSignupMutationOptions(options);
+  const mutationOptions = useSignUpMutationOptions(options);
 
   return useMutation(mutationOptions);
 };
 
-export const usePutUserSignupHook = () => {
-  const putUserSignup = useCustomInstance<UserResponseDTO>();
+export const useChangePasswordHook = () => {
+  const changePassword = useCustomInstance<UserResponseDTO>();
 
   return useCallback(
     (loginUserForm: LoginUserForm) => {
-      return putUserSignup({
+      return changePassword({
         url: `/user/signup`,
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         data: loginUserForm,
       });
     },
-    [putUserSignup],
+    [changePassword],
   );
 };
 
-export const usePutUserSignupMutationOptions = <
+export const useChangePasswordMutationOptions = <
   TError = ResourceNotFoundError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<ReturnType<typeof usePutUserSignupHook>>>,
+    Awaited<ReturnType<ReturnType<typeof useChangePasswordHook>>>,
     TError,
     { data: LoginUserForm },
     TContext
   >;
 }): UseMutationOptions<
-  Awaited<ReturnType<ReturnType<typeof usePutUserSignupHook>>>,
+  Awaited<ReturnType<ReturnType<typeof useChangePasswordHook>>>,
   TError,
   { data: LoginUserForm },
   TContext
 > => {
   const { mutation: mutationOptions } = options ?? {};
 
-  const putUserSignup = usePutUserSignupHook();
+  const changePassword = useChangePasswordHook();
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<ReturnType<typeof usePutUserSignupHook>>>,
+    Awaited<ReturnType<ReturnType<typeof useChangePasswordHook>>>,
     { data: LoginUserForm }
   > = (props) => {
     const { data } = props ?? {};
 
-    return putUserSignup(data);
+    return changePassword(data);
   };
 
   return { mutationFn, ...mutationOptions };
 };
 
-export type PutUserSignupMutationResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof usePutUserSignupHook>>>
+export type ChangePasswordMutationResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useChangePasswordHook>>>
 >;
-export type PutUserSignupMutationBody = LoginUserForm;
-export type PutUserSignupMutationError = ResourceNotFoundError;
+export type ChangePasswordMutationBody = LoginUserForm;
+export type ChangePasswordMutationError = ResourceNotFoundError;
 
-export const usePutUserSignup = <
+export const useChangePassword = <
   TError = ResourceNotFoundError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<ReturnType<typeof usePutUserSignupHook>>>,
+    Awaited<ReturnType<ReturnType<typeof useChangePasswordHook>>>,
     TError,
     { data: LoginUserForm },
     TContext
   >;
 }): UseMutationResult<
-  Awaited<ReturnType<ReturnType<typeof usePutUserSignupHook>>>,
+  Awaited<ReturnType<ReturnType<typeof useChangePasswordHook>>>,
   TError,
   { data: LoginUserForm },
   TContext
 > => {
-  const mutationOptions = usePutUserSignupMutationOptions(options);
+  const mutationOptions = useChangePasswordMutationOptions(options);
 
   return useMutation(mutationOptions);
 };
 
-export const usePostUserLoginHook = () => {
-  const postUserLogin = useCustomInstance<UserResponseDTO>();
+export const useLoginHook = () => {
+  const login = useCustomInstance<UserResponseDTO>();
 
   return useCallback(
     (loginUserForm: LoginUserForm, signal?: AbortSignal) => {
-      return postUserLogin({
+      return login({
         url: `/user/login`,
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -678,65 +680,65 @@ export const usePostUserLoginHook = () => {
         signal,
       });
     },
-    [postUserLogin],
+    [login],
   );
 };
 
-export const usePostUserLoginMutationOptions = <
+export const useLoginMutationOptions = <
   TError = ForbiddenError | ResourceNotFoundError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<ReturnType<typeof usePostUserLoginHook>>>,
+    Awaited<ReturnType<ReturnType<typeof useLoginHook>>>,
     TError,
     { data: LoginUserForm },
     TContext
   >;
 }): UseMutationOptions<
-  Awaited<ReturnType<ReturnType<typeof usePostUserLoginHook>>>,
+  Awaited<ReturnType<ReturnType<typeof useLoginHook>>>,
   TError,
   { data: LoginUserForm },
   TContext
 > => {
   const { mutation: mutationOptions } = options ?? {};
 
-  const postUserLogin = usePostUserLoginHook();
+  const login = useLoginHook();
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<ReturnType<typeof usePostUserLoginHook>>>,
+    Awaited<ReturnType<ReturnType<typeof useLoginHook>>>,
     { data: LoginUserForm }
   > = (props) => {
     const { data } = props ?? {};
 
-    return postUserLogin(data);
+    return login(data);
   };
 
   return { mutationFn, ...mutationOptions };
 };
 
-export type PostUserLoginMutationResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof usePostUserLoginHook>>>
+export type LoginMutationResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useLoginHook>>>
 >;
-export type PostUserLoginMutationBody = LoginUserForm;
-export type PostUserLoginMutationError = ForbiddenError | ResourceNotFoundError;
+export type LoginMutationBody = LoginUserForm;
+export type LoginMutationError = ForbiddenError | ResourceNotFoundError;
 
-export const usePostUserLogin = <
+export const useLogin = <
   TError = ForbiddenError | ResourceNotFoundError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<ReturnType<typeof usePostUserLoginHook>>>,
+    Awaited<ReturnType<ReturnType<typeof useLoginHook>>>,
     TError,
     { data: LoginUserForm },
     TContext
   >;
 }): UseMutationResult<
-  Awaited<ReturnType<ReturnType<typeof usePostUserLoginHook>>>,
+  Awaited<ReturnType<ReturnType<typeof useLoginHook>>>,
   TError,
   { data: LoginUserForm },
   TContext
 > => {
-  const mutationOptions = usePostUserLoginMutationOptions(options);
+  const mutationOptions = useLoginMutationOptions(options);
 
   return useMutation(mutationOptions);
 };
@@ -806,42 +808,45 @@ export const usePostUserManage = <TError = void, TContext = unknown>(options?: {
   return useMutation(mutationOptions);
 };
 
-export const useGetMeetingHook = () => {
-  const getMeeting = useCustomInstance<MeetingResponseDTOList>();
+export const useSearchMeetingsHook = () => {
+  const searchMeetings = useCustomInstance<MeetingResponseDTOList>();
 
   return useCallback(
-    (signal?: AbortSignal) => {
-      return getMeeting({ url: `/meeting`, method: "GET", signal });
+    (params?: SearchMeetingsParams, signal?: AbortSignal) => {
+      return searchMeetings({ url: `/meeting`, method: "GET", params, signal });
     },
-    [getMeeting],
+    [searchMeetings],
   );
 };
 
-export const getGetMeetingQueryKey = () => {
-  return [`/meeting`] as const;
+export const getSearchMeetingsQueryKey = (params?: SearchMeetingsParams) => {
+  return [`/meeting`, ...(params ? [params] : [])] as const;
 };
 
-export const useGetMeetingQueryOptions = <
-  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>,
+export const useSearchMeetingsQueryOptions = <
+  TData = Awaited<ReturnType<ReturnType<typeof useSearchMeetingsHook>>>,
   TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>,
-      TError,
-      TData
-    >
-  >;
-}) => {
+>(
+  params?: SearchMeetingsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useSearchMeetingsHook>>>,
+        TError,
+        TData
+      >
+    >;
+  },
+) => {
   const { query: queryOptions } = options ?? {};
 
-  const queryKey = queryOptions?.queryKey ?? getGetMeetingQueryKey();
+  const queryKey = queryOptions?.queryKey ?? getSearchMeetingsQueryKey(params);
 
-  const getMeeting = useGetMeetingHook();
+  const searchMeetings = useSearchMeetingsHook();
 
   const queryFn: QueryFunction<
-    Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>
-  > = ({ signal }) => getMeeting(signal);
+    Awaited<ReturnType<ReturnType<typeof useSearchMeetingsHook>>>
+  > = ({ signal }) => searchMeetings(params, signal);
 
   return {
     queryKey,
@@ -849,85 +854,97 @@ export const useGetMeetingQueryOptions = <
     staleTime: 30000,
     ...queryOptions,
   } as UseQueryOptions<
-    Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>,
+    Awaited<ReturnType<ReturnType<typeof useSearchMeetingsHook>>>,
     TError,
     TData
   > & { queryKey: DataTag<QueryKey, TData> };
 };
 
-export type GetMeetingQueryResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>
+export type SearchMeetingsQueryResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useSearchMeetingsHook>>>
 >;
-export type GetMeetingQueryError = unknown;
+export type SearchMeetingsQueryError = unknown;
 
-export function useGetMeeting<
-  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>,
+export function useSearchMeetings<
+  TData = Awaited<ReturnType<ReturnType<typeof useSearchMeetingsHook>>>,
   TError = unknown,
->(options: {
-  query: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>,
-      TError,
-      TData
-    >
-  > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>,
+>(
+  params: undefined | SearchMeetingsParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useSearchMeetingsHook>>>,
         TError,
         TData
-      >,
-      "initialData"
-    >;
-}): DefinedUseQueryResult<TData, TError> & {
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<ReturnType<typeof useSearchMeetingsHook>>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >;
+  },
+): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData>;
 };
-export function useGetMeeting<
-  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>,
+export function useSearchMeetings<
+  TData = Awaited<ReturnType<ReturnType<typeof useSearchMeetingsHook>>>,
   TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>,
-      TError,
-      TData
-    >
-  > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>,
+>(
+  params?: SearchMeetingsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useSearchMeetingsHook>>>,
         TError,
         TData
-      >,
-      "initialData"
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<ReturnType<typeof useSearchMeetingsHook>>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+export function useSearchMeetings<
+  TData = Awaited<ReturnType<ReturnType<typeof useSearchMeetingsHook>>>,
+  TError = unknown,
+>(
+  params?: SearchMeetingsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useSearchMeetingsHook>>>,
+        TError,
+        TData
+      >
     >;
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
-export function useGetMeeting<
-  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>,
-      TError,
-      TData
-    >
-  >;
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
 
-export function useGetMeeting<
-  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>,
+export function useSearchMeetings<
+  TData = Awaited<ReturnType<ReturnType<typeof useSearchMeetingsHook>>>,
   TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>,
-      TError,
-      TData
-    >
-  >;
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
-  const queryOptions = useGetMeetingQueryOptions(options);
+>(
+  params?: SearchMeetingsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useSearchMeetingsHook>>>,
+        TError,
+        TData
+      >
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+  const queryOptions = useSearchMeetingsQueryOptions(params, options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: DataTag<QueryKey, TData>;
@@ -938,27 +955,30 @@ export function useGetMeeting<
   return query;
 }
 
-export const useGetMeetingSuspenseQueryOptions = <
-  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>,
+export const useSearchMeetingsSuspenseQueryOptions = <
+  TData = Awaited<ReturnType<ReturnType<typeof useSearchMeetingsHook>>>,
   TError = unknown,
->(options?: {
-  query?: Partial<
-    UseSuspenseQueryOptions<
-      Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>,
-      TError,
-      TData
-    >
-  >;
-}) => {
+>(
+  params?: SearchMeetingsParams,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useSearchMeetingsHook>>>,
+        TError,
+        TData
+      >
+    >;
+  },
+) => {
   const { query: queryOptions } = options ?? {};
 
-  const queryKey = queryOptions?.queryKey ?? getGetMeetingQueryKey();
+  const queryKey = queryOptions?.queryKey ?? getSearchMeetingsQueryKey(params);
 
-  const getMeeting = useGetMeetingHook();
+  const searchMeetings = useSearchMeetingsHook();
 
   const queryFn: QueryFunction<
-    Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>
-  > = ({ signal }) => getMeeting(signal);
+    Awaited<ReturnType<ReturnType<typeof useSearchMeetingsHook>>>
+  > = ({ signal }) => searchMeetings(params, signal);
 
   return {
     queryKey,
@@ -966,75 +986,87 @@ export const useGetMeetingSuspenseQueryOptions = <
     staleTime: 30000,
     ...queryOptions,
   } as UseSuspenseQueryOptions<
-    Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>,
+    Awaited<ReturnType<ReturnType<typeof useSearchMeetingsHook>>>,
     TError,
     TData
   > & { queryKey: DataTag<QueryKey, TData> };
 };
 
-export type GetMeetingSuspenseQueryResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>
+export type SearchMeetingsSuspenseQueryResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useSearchMeetingsHook>>>
 >;
-export type GetMeetingSuspenseQueryError = unknown;
+export type SearchMeetingsSuspenseQueryError = unknown;
 
-export function useGetMeetingSuspense<
-  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>,
+export function useSearchMeetingsSuspense<
+  TData = Awaited<ReturnType<ReturnType<typeof useSearchMeetingsHook>>>,
   TError = unknown,
->(options: {
-  query: Partial<
-    UseSuspenseQueryOptions<
-      Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>,
-      TError,
-      TData
-    >
-  >;
-}): UseSuspenseQueryResult<TData, TError> & {
+>(
+  params: undefined | SearchMeetingsParams,
+  options: {
+    query: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useSearchMeetingsHook>>>,
+        TError,
+        TData
+      >
+    >;
+  },
+): UseSuspenseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData>;
 };
-export function useGetMeetingSuspense<
-  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>,
+export function useSearchMeetingsSuspense<
+  TData = Awaited<ReturnType<ReturnType<typeof useSearchMeetingsHook>>>,
   TError = unknown,
->(options?: {
-  query?: Partial<
-    UseSuspenseQueryOptions<
-      Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>,
-      TError,
-      TData
-    >
-  >;
-}): UseSuspenseQueryResult<TData, TError> & {
+>(
+  params?: SearchMeetingsParams,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useSearchMeetingsHook>>>,
+        TError,
+        TData
+      >
+    >;
+  },
+): UseSuspenseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData>;
 };
-export function useGetMeetingSuspense<
-  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>,
+export function useSearchMeetingsSuspense<
+  TData = Awaited<ReturnType<ReturnType<typeof useSearchMeetingsHook>>>,
   TError = unknown,
->(options?: {
-  query?: Partial<
-    UseSuspenseQueryOptions<
-      Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>,
-      TError,
-      TData
-    >
-  >;
-}): UseSuspenseQueryResult<TData, TError> & {
+>(
+  params?: SearchMeetingsParams,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useSearchMeetingsHook>>>,
+        TError,
+        TData
+      >
+    >;
+  },
+): UseSuspenseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData>;
 };
 
-export function useGetMeetingSuspense<
-  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>,
+export function useSearchMeetingsSuspense<
+  TData = Awaited<ReturnType<ReturnType<typeof useSearchMeetingsHook>>>,
   TError = unknown,
->(options?: {
-  query?: Partial<
-    UseSuspenseQueryOptions<
-      Awaited<ReturnType<ReturnType<typeof useGetMeetingHook>>>,
-      TError,
-      TData
-    >
-  >;
-}): UseSuspenseQueryResult<TData, TError> & {
+>(
+  params?: SearchMeetingsParams,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useSearchMeetingsHook>>>,
+        TError,
+        TData
+      >
+    >;
+  },
+): UseSuspenseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData>;
 } {
-  const queryOptions = useGetMeetingSuspenseQueryOptions(options);
+  const queryOptions = useSearchMeetingsSuspenseQueryOptions(params, options);
 
   const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<
     TData,
@@ -1046,12 +1078,12 @@ export function useGetMeetingSuspense<
   return query;
 }
 
-export const usePostMeetingHook = () => {
-  const postMeeting = useCustomInstance<MeetingResponseDTO>();
+export const useReserveMeetingHook = () => {
+  const reserveMeeting = useCustomInstance<MeetingResponseDTO>();
 
   return useCallback(
     (meetingForm: MeetingForm, signal?: AbortSignal) => {
-      return postMeeting({
+      return reserveMeeting({
         url: `/meeting`,
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -1059,97 +1091,97 @@ export const usePostMeetingHook = () => {
         signal,
       });
     },
-    [postMeeting],
+    [reserveMeeting],
   );
 };
 
-export const usePostMeetingMutationOptions = <
-  TError = BadRequestError,
+export const useReserveMeetingMutationOptions = <
+  TError = BadRequestError | ConflictError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<ReturnType<typeof usePostMeetingHook>>>,
+    Awaited<ReturnType<ReturnType<typeof useReserveMeetingHook>>>,
     TError,
     { data: MeetingForm },
     TContext
   >;
 }): UseMutationOptions<
-  Awaited<ReturnType<ReturnType<typeof usePostMeetingHook>>>,
+  Awaited<ReturnType<ReturnType<typeof useReserveMeetingHook>>>,
   TError,
   { data: MeetingForm },
   TContext
 > => {
   const { mutation: mutationOptions } = options ?? {};
 
-  const postMeeting = usePostMeetingHook();
+  const reserveMeeting = useReserveMeetingHook();
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<ReturnType<typeof usePostMeetingHook>>>,
+    Awaited<ReturnType<ReturnType<typeof useReserveMeetingHook>>>,
     { data: MeetingForm }
   > = (props) => {
     const { data } = props ?? {};
 
-    return postMeeting(data);
+    return reserveMeeting(data);
   };
 
   return { mutationFn, ...mutationOptions };
 };
 
-export type PostMeetingMutationResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof usePostMeetingHook>>>
+export type ReserveMeetingMutationResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useReserveMeetingHook>>>
 >;
-export type PostMeetingMutationBody = MeetingForm;
-export type PostMeetingMutationError = BadRequestError;
+export type ReserveMeetingMutationBody = MeetingForm;
+export type ReserveMeetingMutationError = BadRequestError | ConflictError;
 
-export const usePostMeeting = <
-  TError = BadRequestError,
+export const useReserveMeeting = <
+  TError = BadRequestError | ConflictError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<ReturnType<typeof usePostMeetingHook>>>,
+    Awaited<ReturnType<ReturnType<typeof useReserveMeetingHook>>>,
     TError,
     { data: MeetingForm },
     TContext
   >;
 }): UseMutationResult<
-  Awaited<ReturnType<ReturnType<typeof usePostMeetingHook>>>,
+  Awaited<ReturnType<ReturnType<typeof useReserveMeetingHook>>>,
   TError,
   { data: MeetingForm },
   TContext
 > => {
-  const mutationOptions = usePostMeetingMutationOptions(options);
+  const mutationOptions = useReserveMeetingMutationOptions(options);
 
   return useMutation(mutationOptions);
 };
 
-export const useGetMeetingMeetingIdHook = () => {
-  const getMeetingMeetingId = useCustomInstance<MeetingResponseDTO>();
+export const useGetMeetingByIDHook = () => {
+  const getMeetingByID = useCustomInstance<MeetingResponseDTO>();
 
   return useCallback(
     (meetingId: number, signal?: AbortSignal) => {
-      return getMeetingMeetingId({
+      return getMeetingByID({
         url: `/meeting/${meetingId}`,
         method: "GET",
         signal,
       });
     },
-    [getMeetingMeetingId],
+    [getMeetingByID],
   );
 };
 
-export const getGetMeetingMeetingIdQueryKey = (meetingId: number) => {
+export const getGetMeetingByIDQueryKey = (meetingId: number) => {
   return [`/meeting/${meetingId}`] as const;
 };
 
-export const useGetMeetingMeetingIdQueryOptions = <
-  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>,
+export const useGetMeetingByIDQueryOptions = <
+  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingByIDHook>>>,
   TError = BadRequestError | ResourceNotFoundError,
 >(
   meetingId: number,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>,
+        Awaited<ReturnType<ReturnType<typeof useGetMeetingByIDHook>>>,
         TError,
         TData
       >
@@ -1159,13 +1191,13 @@ export const useGetMeetingMeetingIdQueryOptions = <
   const { query: queryOptions } = options ?? {};
 
   const queryKey =
-    queryOptions?.queryKey ?? getGetMeetingMeetingIdQueryKey(meetingId);
+    queryOptions?.queryKey ?? getGetMeetingByIDQueryKey(meetingId);
 
-  const getMeetingMeetingId = useGetMeetingMeetingIdHook();
+  const getMeetingByID = useGetMeetingByIDHook();
 
   const queryFn: QueryFunction<
-    Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>
-  > = ({ signal }) => getMeetingMeetingId(meetingId, signal);
+    Awaited<ReturnType<ReturnType<typeof useGetMeetingByIDHook>>>
+  > = ({ signal }) => getMeetingByID(meetingId, signal);
 
   return {
     queryKey,
@@ -1174,35 +1206,33 @@ export const useGetMeetingMeetingIdQueryOptions = <
     staleTime: 30000,
     ...queryOptions,
   } as UseQueryOptions<
-    Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>,
+    Awaited<ReturnType<ReturnType<typeof useGetMeetingByIDHook>>>,
     TError,
     TData
   > & { queryKey: DataTag<QueryKey, TData> };
 };
 
-export type GetMeetingMeetingIdQueryResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>
+export type GetMeetingByIDQueryResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useGetMeetingByIDHook>>>
 >;
-export type GetMeetingMeetingIdQueryError =
-  | BadRequestError
-  | ResourceNotFoundError;
+export type GetMeetingByIDQueryError = BadRequestError | ResourceNotFoundError;
 
-export function useGetMeetingMeetingId<
-  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>,
+export function useGetMeetingByID<
+  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingByIDHook>>>,
   TError = BadRequestError | ResourceNotFoundError,
 >(
   meetingId: number,
   options: {
     query: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>,
+        Awaited<ReturnType<ReturnType<typeof useGetMeetingByIDHook>>>,
         TError,
         TData
       >
     > &
       Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>,
+          Awaited<ReturnType<ReturnType<typeof useGetMeetingByIDHook>>>,
           TError,
           TData
         >,
@@ -1212,22 +1242,22 @@ export function useGetMeetingMeetingId<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData>;
 };
-export function useGetMeetingMeetingId<
-  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>,
+export function useGetMeetingByID<
+  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingByIDHook>>>,
   TError = BadRequestError | ResourceNotFoundError,
 >(
   meetingId: number,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>,
+        Awaited<ReturnType<ReturnType<typeof useGetMeetingByIDHook>>>,
         TError,
         TData
       >
     > &
       Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>,
+          Awaited<ReturnType<ReturnType<typeof useGetMeetingByIDHook>>>,
           TError,
           TData
         >,
@@ -1235,15 +1265,15 @@ export function useGetMeetingMeetingId<
       >;
   },
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
-export function useGetMeetingMeetingId<
-  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>,
+export function useGetMeetingByID<
+  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingByIDHook>>>,
   TError = BadRequestError | ResourceNotFoundError,
 >(
   meetingId: number,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>,
+        Awaited<ReturnType<ReturnType<typeof useGetMeetingByIDHook>>>,
         TError,
         TData
       >
@@ -1251,22 +1281,22 @@ export function useGetMeetingMeetingId<
   },
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
 
-export function useGetMeetingMeetingId<
-  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>,
+export function useGetMeetingByID<
+  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingByIDHook>>>,
   TError = BadRequestError | ResourceNotFoundError,
 >(
   meetingId: number,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>,
+        Awaited<ReturnType<ReturnType<typeof useGetMeetingByIDHook>>>,
         TError,
         TData
       >
     >;
   },
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
-  const queryOptions = useGetMeetingMeetingIdQueryOptions(meetingId, options);
+  const queryOptions = useGetMeetingByIDQueryOptions(meetingId, options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: DataTag<QueryKey, TData>;
@@ -1277,15 +1307,15 @@ export function useGetMeetingMeetingId<
   return query;
 }
 
-export const useGetMeetingMeetingIdSuspenseQueryOptions = <
-  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>,
+export const useGetMeetingByIDSuspenseQueryOptions = <
+  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingByIDHook>>>,
   TError = BadRequestError | ResourceNotFoundError,
 >(
   meetingId: number,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>,
+        Awaited<ReturnType<ReturnType<typeof useGetMeetingByIDHook>>>,
         TError,
         TData
       >
@@ -1295,13 +1325,13 @@ export const useGetMeetingMeetingIdSuspenseQueryOptions = <
   const { query: queryOptions } = options ?? {};
 
   const queryKey =
-    queryOptions?.queryKey ?? getGetMeetingMeetingIdQueryKey(meetingId);
+    queryOptions?.queryKey ?? getGetMeetingByIDQueryKey(meetingId);
 
-  const getMeetingMeetingId = useGetMeetingMeetingIdHook();
+  const getMeetingByID = useGetMeetingByIDHook();
 
   const queryFn: QueryFunction<
-    Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>
-  > = ({ signal }) => getMeetingMeetingId(meetingId, signal);
+    Awaited<ReturnType<ReturnType<typeof useGetMeetingByIDHook>>>
+  > = ({ signal }) => getMeetingByID(meetingId, signal);
 
   return {
     queryKey,
@@ -1309,28 +1339,28 @@ export const useGetMeetingMeetingIdSuspenseQueryOptions = <
     staleTime: 30000,
     ...queryOptions,
   } as UseSuspenseQueryOptions<
-    Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>,
+    Awaited<ReturnType<ReturnType<typeof useGetMeetingByIDHook>>>,
     TError,
     TData
   > & { queryKey: DataTag<QueryKey, TData> };
 };
 
-export type GetMeetingMeetingIdSuspenseQueryResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>
+export type GetMeetingByIDSuspenseQueryResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useGetMeetingByIDHook>>>
 >;
-export type GetMeetingMeetingIdSuspenseQueryError =
+export type GetMeetingByIDSuspenseQueryError =
   | BadRequestError
   | ResourceNotFoundError;
 
-export function useGetMeetingMeetingIdSuspense<
-  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>,
+export function useGetMeetingByIDSuspense<
+  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingByIDHook>>>,
   TError = BadRequestError | ResourceNotFoundError,
 >(
   meetingId: number,
   options: {
     query: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>,
+        Awaited<ReturnType<ReturnType<typeof useGetMeetingByIDHook>>>,
         TError,
         TData
       >
@@ -1339,15 +1369,15 @@ export function useGetMeetingMeetingIdSuspense<
 ): UseSuspenseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData>;
 };
-export function useGetMeetingMeetingIdSuspense<
-  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>,
+export function useGetMeetingByIDSuspense<
+  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingByIDHook>>>,
   TError = BadRequestError | ResourceNotFoundError,
 >(
   meetingId: number,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>,
+        Awaited<ReturnType<ReturnType<typeof useGetMeetingByIDHook>>>,
         TError,
         TData
       >
@@ -1356,15 +1386,15 @@ export function useGetMeetingMeetingIdSuspense<
 ): UseSuspenseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData>;
 };
-export function useGetMeetingMeetingIdSuspense<
-  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>,
+export function useGetMeetingByIDSuspense<
+  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingByIDHook>>>,
   TError = BadRequestError | ResourceNotFoundError,
 >(
   meetingId: number,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>,
+        Awaited<ReturnType<ReturnType<typeof useGetMeetingByIDHook>>>,
         TError,
         TData
       >
@@ -1374,15 +1404,15 @@ export function useGetMeetingMeetingIdSuspense<
   queryKey: DataTag<QueryKey, TData>;
 };
 
-export function useGetMeetingMeetingIdSuspense<
-  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>,
+export function useGetMeetingByIDSuspense<
+  TData = Awaited<ReturnType<ReturnType<typeof useGetMeetingByIDHook>>>,
   TError = BadRequestError | ResourceNotFoundError,
 >(
   meetingId: number,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<ReturnType<typeof useGetMeetingMeetingIdHook>>>,
+        Awaited<ReturnType<ReturnType<typeof useGetMeetingByIDHook>>>,
         TError,
         TData
       >
@@ -1391,7 +1421,7 @@ export function useGetMeetingMeetingIdSuspense<
 ): UseSuspenseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData>;
 } {
-  const queryOptions = useGetMeetingMeetingIdSuspenseQueryOptions(
+  const queryOptions = useGetMeetingByIDSuspenseQueryOptions(
     meetingId,
     options,
   );
@@ -1406,80 +1436,89 @@ export function useGetMeetingMeetingIdSuspense<
   return query;
 }
 
-export const usePutMeetingMeetingIdHook = () => {
-  const putMeetingMeetingId = useCustomInstance<MeetingResponseDTO>();
+export const useUpdateMeetingHook = () => {
+  const updateMeeting = useCustomInstance<MeetingResponseDTO>();
 
   return useCallback(
     (meetingId: number, meetingForm: MeetingForm) => {
-      return putMeetingMeetingId({
+      return updateMeeting({
         url: `/meeting/${meetingId}`,
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         data: meetingForm,
       });
     },
-    [putMeetingMeetingId],
+    [updateMeeting],
   );
 };
 
-export const usePutMeetingMeetingIdMutationOptions = <
-  TError = BadRequestError | ForbiddenError | ResourceNotFoundError,
+export const useUpdateMeetingMutationOptions = <
+  TError =
+    | BadRequestError
+    | ForbiddenError
+    | ResourceNotFoundError
+    | ConflictError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<ReturnType<typeof usePutMeetingMeetingIdHook>>>,
+    Awaited<ReturnType<ReturnType<typeof useUpdateMeetingHook>>>,
     TError,
     { meetingId: number; data: MeetingForm },
     TContext
   >;
 }): UseMutationOptions<
-  Awaited<ReturnType<ReturnType<typeof usePutMeetingMeetingIdHook>>>,
+  Awaited<ReturnType<ReturnType<typeof useUpdateMeetingHook>>>,
   TError,
   { meetingId: number; data: MeetingForm },
   TContext
 > => {
   const { mutation: mutationOptions } = options ?? {};
 
-  const putMeetingMeetingId = usePutMeetingMeetingIdHook();
+  const updateMeeting = useUpdateMeetingHook();
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<ReturnType<typeof usePutMeetingMeetingIdHook>>>,
+    Awaited<ReturnType<ReturnType<typeof useUpdateMeetingHook>>>,
     { meetingId: number; data: MeetingForm }
   > = (props) => {
     const { meetingId, data } = props ?? {};
 
-    return putMeetingMeetingId(meetingId, data);
+    return updateMeeting(meetingId, data);
   };
 
   return { mutationFn, ...mutationOptions };
 };
 
-export type PutMeetingMeetingIdMutationResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof usePutMeetingMeetingIdHook>>>
+export type UpdateMeetingMutationResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useUpdateMeetingHook>>>
 >;
-export type PutMeetingMeetingIdMutationBody = MeetingForm;
-export type PutMeetingMeetingIdMutationError =
+export type UpdateMeetingMutationBody = MeetingForm;
+export type UpdateMeetingMutationError =
   | BadRequestError
   | ForbiddenError
-  | ResourceNotFoundError;
+  | ResourceNotFoundError
+  | ConflictError;
 
-export const usePutMeetingMeetingId = <
-  TError = BadRequestError | ForbiddenError | ResourceNotFoundError,
+export const useUpdateMeeting = <
+  TError =
+    | BadRequestError
+    | ForbiddenError
+    | ResourceNotFoundError
+    | ConflictError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<ReturnType<typeof usePutMeetingMeetingIdHook>>>,
+    Awaited<ReturnType<ReturnType<typeof useUpdateMeetingHook>>>,
     TError,
     { meetingId: number; data: MeetingForm },
     TContext
   >;
 }): UseMutationResult<
-  Awaited<ReturnType<ReturnType<typeof usePutMeetingMeetingIdHook>>>,
+  Awaited<ReturnType<ReturnType<typeof useUpdateMeetingHook>>>,
   TError,
   { meetingId: number; data: MeetingForm },
   TContext
 > => {
-  const mutationOptions = usePutMeetingMeetingIdMutationOptions(options);
+  const mutationOptions = useUpdateMeetingMutationOptions(options);
 
   return useMutation(mutationOptions);
 };
@@ -1487,77 +1526,74 @@ export const usePutMeetingMeetingId = <
 /**
  * 要素の削除
  */
-export const useDeleteMeetingMeetingIdHook = () => {
-  const deleteMeetingMeetingId = useCustomInstance<void>();
+export const useCancelMeetingHook = () => {
+  const cancelMeeting = useCustomInstance<void>();
 
   return useCallback(
     (meetingId: number) => {
-      return deleteMeetingMeetingId({
-        url: `/meeting/${meetingId}`,
-        method: "DELETE",
-      });
+      return cancelMeeting({ url: `/meeting/${meetingId}`, method: "DELETE" });
     },
-    [deleteMeetingMeetingId],
+    [cancelMeeting],
   );
 };
 
-export const useDeleteMeetingMeetingIdMutationOptions = <
+export const useCancelMeetingMutationOptions = <
   TError = BadRequestError | ResourceNotFoundError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<ReturnType<typeof useDeleteMeetingMeetingIdHook>>>,
+    Awaited<ReturnType<ReturnType<typeof useCancelMeetingHook>>>,
     TError,
     { meetingId: number },
     TContext
   >;
 }): UseMutationOptions<
-  Awaited<ReturnType<ReturnType<typeof useDeleteMeetingMeetingIdHook>>>,
+  Awaited<ReturnType<ReturnType<typeof useCancelMeetingHook>>>,
   TError,
   { meetingId: number },
   TContext
 > => {
   const { mutation: mutationOptions } = options ?? {};
 
-  const deleteMeetingMeetingId = useDeleteMeetingMeetingIdHook();
+  const cancelMeeting = useCancelMeetingHook();
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<ReturnType<typeof useDeleteMeetingMeetingIdHook>>>,
+    Awaited<ReturnType<ReturnType<typeof useCancelMeetingHook>>>,
     { meetingId: number }
   > = (props) => {
     const { meetingId } = props ?? {};
 
-    return deleteMeetingMeetingId(meetingId);
+    return cancelMeeting(meetingId);
   };
 
   return { mutationFn, ...mutationOptions };
 };
 
-export type DeleteMeetingMeetingIdMutationResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof useDeleteMeetingMeetingIdHook>>>
+export type CancelMeetingMutationResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useCancelMeetingHook>>>
 >;
 
-export type DeleteMeetingMeetingIdMutationError =
+export type CancelMeetingMutationError =
   | BadRequestError
   | ResourceNotFoundError;
 
-export const useDeleteMeetingMeetingId = <
+export const useCancelMeeting = <
   TError = BadRequestError | ResourceNotFoundError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<ReturnType<typeof useDeleteMeetingMeetingIdHook>>>,
+    Awaited<ReturnType<ReturnType<typeof useCancelMeetingHook>>>,
     TError,
     { meetingId: number },
     TContext
   >;
 }): UseMutationResult<
-  Awaited<ReturnType<ReturnType<typeof useDeleteMeetingMeetingIdHook>>>,
+  Awaited<ReturnType<ReturnType<typeof useCancelMeetingHook>>>,
   TError,
   { meetingId: number },
   TContext
 > => {
-  const mutationOptions = useDeleteMeetingMeetingIdMutationOptions(options);
+  const mutationOptions = useCancelMeetingMutationOptions(options);
 
   return useMutation(mutationOptions);
 };

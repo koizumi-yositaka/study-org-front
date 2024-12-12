@@ -1,5 +1,4 @@
-import { cva, VariantProps } from 'class-variance-authority'
-import React, { HTMLProps, ReactNode } from 'react'
+import { HTMLProps } from 'react'
 
 interface InformationCardProps extends HTMLProps<HTMLDivElement> {
   message:string

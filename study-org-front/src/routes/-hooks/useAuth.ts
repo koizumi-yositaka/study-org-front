@@ -1,6 +1,5 @@
 import { useRecoilCallback, useRecoilValue } from "recoil"
 import { AuthState, LoginEmailState, RoleState } from "../../state/auth"
-import { redirect, useNavigate } from "@tanstack/react-router"
 import { UserResponseDTO } from "@/api/model"
 
 export interface UseAuthResponse {

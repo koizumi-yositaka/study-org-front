@@ -1,5 +1,5 @@
 import { ReactNode } from '@tanstack/react-router'
-import React from 'react'
+
 
 interface CardProps{
     topImage?:ReactNode,

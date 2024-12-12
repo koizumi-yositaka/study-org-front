@@ -1,6 +1,6 @@
-import * as React from 'react'
 import { createFileRoute, redirect } from '@tanstack/react-router'
-import { useGetMeetingMeetingIdSuspense } from '@/api/endpoints/testGen'
+import { useGetMeetingByIDSuspense } from '@/api/endpoints/testGen'
+import { MeetingEdit } from './-components/MeetingEdit'
 
 export const Route = createFileRoute('/_auth/meetings/$meetingId')({
   component: RouteComponent,
@@ -15,13 +15,16 @@ export const Route = createFileRoute('/_auth/meetings/$meetingId')({
 
 function RouteComponent() {
   const { meetingId } = Route.useParams()
-  const {data} = useGetMeetingMeetingIdSuspense(Number(meetingId))
+  const {data} = useGetMeetingByIDSuspense(Number(meetingId))
 
   console.log(data)
   return (
     <>
-      <p>id:{data.id}</p>
-      <p>title:{data.title}</p>
+      {/* <p>id:{data.id}</p>
+      <p>title:{data.title}</p> */}
+      <MeetingEdit>
+        
+      </MeetingEdit>
     </>
 
   )
