@@ -48,6 +48,7 @@ const items = [
 ]
 
 export function AppSidebar() {
+  console.log("appsidebar render")
   return (
     <Sidebar>
       <SidebarContent>

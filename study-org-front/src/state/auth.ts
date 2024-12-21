@@ -18,6 +18,10 @@ export const LoginEmailState = atom<string>({
     key:"auth/email",
     default:""
 })
+export const LoginUserIdState = atom<number>({
+    key:"auth/userID",
+    default:0
+})
 
 export const AuthSelector = selector({
     key:"auth/state",
@@ -25,7 +29,8 @@ export const AuthSelector = selector({
         return {
             isLogin:get(AuthState),
             role:get(RoleState),
-            loginEmail:get(LoginEmailState)
+            loginEmail:get(LoginEmailState),
+            userId:get(LoginUserIdState)
         }
     },
     set:({set,reset},newval)=>{
@@ -33,12 +38,14 @@ export const AuthSelector = selector({
             reset(AuthState)
             reset(RoleState)
             reset(LoginEmailState)
+            reset(LoginUserIdState)
             return 
         } 
-        const {isLogin,role,loginEmail}=newval
+        const {isLogin,role,loginEmail,userId}=newval
         set(AuthState,isLogin)
         set(RoleState,role)
         set(LoginEmailState,loginEmail)
+        set(LoginUserIdState,userId)
 
         //TODO set処理
 

@@ -1,57 +1,127 @@
-import { LabelAndErrorMsgWrapper } from '../../-components/LabelAndErrorMsgWrapper'
-import { InputText } from '@/common/components/InputText'
-import { Textarea } from '@/components/ui/textarea'
-import { CalendarIcon } from "lucide-react"
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Button } from '@/components/ui/button'
-import { Calendar } from "@/components/ui/calendar"
-import { cn } from '@/utils/utils'
 
-export const MeetingEdit = () => {
+import { InputText } from '@/common/components/InputText'
+
+import { MeetingInputs, useMeetingForm } from '@/routes/-hooks/useMeetingForm'
+import { useMeetingService } from '@/service/meeting/useMeetingService'
+import { CalendarPopup } from '@/common/components/CalendarPopup'
+import { TestButton } from '@/common/components/TestButton'
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import { MeetingForm } from '@/api/model'
+import { format } from 'date-fns'
+import { TimeSelector } from '@/common/components/TimeSelector'
+import { LoginUserIdState } from '@/state/auth'
+import { useRecoilValue } from 'recoil'
+
+interface MeetingEditProp{
+    editData:MeetingForm | null,
+    isAdd?:boolean
+}
+
+export const MeetingEdit = ({editData,isAdd=false}:MeetingEditProp) => {
+    const userID = useRecoilValue(LoginUserIdState) 
+    const defaultObj: MeetingInputs= {
+        title:editData?.title || "",
+        detail:editData?.detail || "",
+        openerId:userID ,
+        eventDate:editData?.eventDate || "2023-09-12",
+        startTime:editData?.startTime || "0900",
+        endTime:editData?.endTime || "0900"
+    }
+    const form=useMeetingForm(defaultObj);  
+    const {callReserveMeeting} = useMeetingService()
+    const {isPending,mutateAsync}=callReserveMeeting()
+    const clickHandler =async (data:MeetingForm,event?: React.BaseSyntheticEvent)=>{
+        event?.preventDefault();
+        const result = await mutateAsync({data});
+    }
+
+    
   return (
   <div className='p-4'>
-    {/* <TestButton onClick={clickHandler} variant={"danger"}>login</TestButton> */}
     <div className="w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8">
-   
-      <form className='space-y-6'>
-        <LabelAndErrorMsgWrapper variant={"normal"} label={"email"} errorElem={""}>
-          <InputText placeholder='name'></InputText>
-        </LabelAndErrorMsgWrapper>
-        <LabelAndErrorMsgWrapper variant={"normal"} label={"email"} errorElem={""}>
-          <Textarea placeholder='name' maxLength={500} className='min-h-48'></Textarea>
-        </LabelAndErrorMsgWrapper>
-        <Popover>
-            <PopoverContent side='top' className="w-auto p-0" align="end">
-                <Calendar
-                mode="single"
-                disabled={(date) =>
-                    date < new Date()
-                }
-                initialFocus
-                />
-            </PopoverContent>
-            <PopoverTrigger asChild>
-     
-                <Button
-                    variant={"outline"}
-                    className={cn(
-                    "w-[240px] pl-3 text-left font-normal",
-                 "text-muted-foreground"
-                    )}
-                >
 
-                    <span>Pick a date</span>
-               
-                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                </Button>
- 
-            </PopoverTrigger>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(clickHandler)} className="space-y-8">
 
-            </Popover>
+
+        <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+                <FormItem>
+                <FormLabel>title</FormLabel>
+                <FormControl>
+                    <InputText placeholder="shadcn" {...field}/>
+                </FormControl>
+                <FormDescription>This is your public display name.</FormDescription>
+                <FormMessage />
+                </FormItem>
+            )}
+            />
+        <FormField
+            control={form.control}
+            name="detail"
+            render={({ field }) => (
+                <FormItem>
+                <FormLabel>detail</FormLabel>
+                <FormControl>
+                    <InputText placeholder="shadcn" {...field}/>
+                </FormControl>
+                <FormDescription>This is your public display name.</FormDescription>
+                <FormMessage />
+                </FormItem>
+            )}
+            />
+        <FormField
+          control={form.control}
+          name="eventDate"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+                <CalendarPopup field={{...field,
+                        value: field.value ? new Date(field.value) : undefined, 
+                        onChange: (date: Date | undefined) => {
+                            field.onChange(date ? format(date, "yyyy-MM-dd") : "")
+                        }
+                }}
+              />
+                <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+            control={form.control}
+            name="startTime"
+            render={({ field }) => (
+                <FormItem>
+                    <FormLabel>開始時刻</FormLabel>
+                    <TimeSelector field={field}/>
+                    <FormMessage />
+                </FormItem>
+            )}
+            />
+        <FormField
+            control={form.control}
+            name="endTime"
+            render={({ field }) => (
+                <FormItem>
+                    <FormLabel>終了時刻</FormLabel>
+                    <TimeSelector field={field}/>
+                    <FormMessage />
+                </FormItem>
+            )}
+            />
+            <TestButton disabled={!form.formState.isValid}  type={"submit"} variant={"danger"}>login</TestButton>
       </form>
-
+    </Form>
     </div>
-
   </div>
   )
 }

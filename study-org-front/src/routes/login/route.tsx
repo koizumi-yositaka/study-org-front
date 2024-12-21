@@ -5,6 +5,9 @@ import { LabelAndErrorMsgWrapper } from '../_auth/-components/LabelAndErrorMsgWr
 import { InputText } from '../../common/components/InputText';
 import { UserInputs, useUserForm } from '../-hooks/useUserForm';
 import { useUserService } from '@/service/user/useUserService';
+import { json } from 'stream/consumers';
+import { LoginUserForm } from '@/api/model';
+import { AXIOS_INSTANCE } from 'use-custom-instance';
  
 export const Route = createFileRoute('/login')({
   component: RouteComponent,
@@ -25,9 +28,10 @@ function RouteComponent() {
         handleSubmit
     }=useUserForm();
  
-  const clickHandler=async (data:UserInputs)=>{
+  const clickHandler=async (data:LoginUserForm)=>{
     console.log(data)
-    const result = await mutateAsync({ data: { email: 'admin@example.com', password: 'pass' } });
+    
+    const result = await mutateAsync({ data: data });
     console.log("login",result)
     login(result)
     navi({"to":"/home"})
@@ -51,6 +55,7 @@ function RouteComponent() {
       </form>}
 
     </div>
+    
 
   </div>
   )

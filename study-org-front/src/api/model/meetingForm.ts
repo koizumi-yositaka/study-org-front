@@ -15,7 +15,7 @@ export interface MeetingForm {
    * @minLength 1
    * @maxLength 500
    */
-  detail?: string;
+  detail: string;
   /**
    * 終了時間
    * @maxLength 5
@@ -35,5 +35,5 @@ export interface MeetingForm {
    * @minLength 1
    * @maxLength 100
    */
-  title?: string;
+  title: string;
 }

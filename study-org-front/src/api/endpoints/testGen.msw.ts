@@ -18,6 +18,7 @@ export const getGetUserRoleResponseMock = (
 ): UserResponseDTO => ({
   email: faker.string.alpha(20),
   role: faker.string.alpha(20),
+  userID: faker.number.int({ min: undefined, max: undefined }),
   ...overrideResponse,
 });
 
@@ -26,6 +27,7 @@ export const getSignUpResponseMock = (
 ): UserResponseDTO => ({
   email: faker.string.alpha(20),
   role: faker.string.alpha(20),
+  userID: faker.number.int({ min: undefined, max: undefined }),
   ...overrideResponse,
 });
 
@@ -34,6 +36,7 @@ export const getChangePasswordResponseMock = (
 ): UserResponseDTO => ({
   email: faker.string.alpha(20),
   role: faker.string.alpha(20),
+  userID: faker.number.int({ min: undefined, max: undefined }),
   ...overrideResponse,
 });
 
@@ -42,6 +45,7 @@ export const getLoginResponseMock = (
 ): UserResponseDTO => ({
   email: faker.string.alpha(20),
   role: faker.string.alpha(20),
+  userID: faker.number.int({ min: undefined, max: undefined }),
   ...overrideResponse,
 });
 

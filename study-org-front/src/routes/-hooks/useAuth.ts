@@ -1,5 +1,5 @@
 import { useRecoilCallback, useRecoilValue } from "recoil"
-import { AuthState, LoginEmailState, RoleState } from "../../state/auth"
+import { AuthState, LoginEmailState, LoginUserIdState, RoleState } from "../../state/auth"
 import { UserResponseDTO } from "@/api/model"
 
 export interface UseAuthResponse {
@@ -17,6 +17,7 @@ const useAuth = ():UseAuthResponse=>{
         set(AuthState,true)
         set(LoginEmailState,data.email)
         set(RoleState,data.role)
+        set(LoginUserIdState,data.userID)
     })
     const logout = useRecoilCallback(({reset})=>()=>{
         
@@ -26,7 +27,7 @@ const useAuth = ():UseAuthResponse=>{
             reset(AuthState)
             reset(LoginEmailState)
             reset(RoleState)
-            
+            reset(LoginUserIdState)
 
         }catch(err){
             console.log(err)

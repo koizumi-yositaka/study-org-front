@@ -18,4 +18,6 @@ export interface UserResponseDTO {
   email: string;
   /** ROLE */
   role: string;
+  /** ユーザーID */
+  userID: number;
 }

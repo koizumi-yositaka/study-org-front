@@ -5,5 +5,6 @@ export const Route = createFileRoute('/_auth/meetings/')({
 })
 
 function RouteComponent() {
+  console.log("INDEX")
   return ''
 }

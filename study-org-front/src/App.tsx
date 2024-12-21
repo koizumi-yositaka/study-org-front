@@ -14,7 +14,8 @@ const router = createRouter({
   routeTree,
   defaultPreload: 'intent',
   context: {
-    auth: undefined!, // This will be set after we wrap the app in an AuthProvider
+    auth: undefined!, // This will be set after we wrap the app in an AuthProvider、
+    queryClient: undefined!, // This will be set after we wrap the app in an AuthProvider
   },
 })
 
@@ -35,16 +36,13 @@ const [design]=useState<DesignContext>(defaultDesign)
 console.log("here",design)
   return (
 <DesignContext.Provider value={design}>
-<Suspense fallback={<div>Loading...</div>}>
-<ErrorBoundary fallback={<div>Error...</div>}>
+
 <QueryClientProvider client={queryClient}>
 <ReactQueryDevtools initialIsOpen={false} />
-<RouterProvider context={{auth}} router={router} defaultNotFoundComponent={()=><h1>見つからず</h1>}/>
+<RouterProvider context={{auth,queryClient}} router={router} defaultNotFoundComponent={()=><h1>見つからず</h1>}/>
 <Toaster/>
 </QueryClientProvider>
-</ErrorBoundary>
 
-</Suspense>
 </DesignContext.Provider>
   )
 }

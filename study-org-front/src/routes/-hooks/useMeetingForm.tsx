@@ -1,47 +1,36 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 const validationSchema  = z.object(
 {
-//   /** 名前 */
-//   nickname: z.string().min(1, { message: "名前を入力してください" }),
-//   /** 年齢 */
-//   age: z
-//     .number({ message: "年齢を半角数字で入力してください" })
-//     .int({ message: "年齢を整数で入力してください" })
-//     .gte(12, { message: "年齢を12歳以上で入力してください" }),
-  /** メールアドレス */
-  email: z.union([
-    z
-      .string()
-      .min(1, { message: "メールアドレスを入力してください" })
-      .email({ message: "メールアドレスの形式で入力してください" })
-      
-      .max(30,{message: "正しく入力してください"})
-      
-      .nullish(),
-    z.literal(""),
-  ]),
-  password: z.string().min(1, { message: "パスワードを入力してください" }),
+  title: z.string().min(1,{message:"タイトルは必須"}).max(500,{message:"タイトルは最大500"}),
+  detail: z.string().min(1, { message: "パスワードを入力してください" }),
+  openerId:z.coerce.number().min(1, "１以上の数値を指定してください。"),
+  eventDate:z.string().date(),
+  startTime:z.string().length(4),
+  endTime:z.string().length(4),
+  
 }
 );
-export type UserInputs = z.infer<typeof validationSchema>;
 
-export const useUserForm=(defaultvalue?:UserInputs | undefined)=>{
+export type MeetingInputs = z.infer<typeof validationSchema>;
+const defaultVal:MeetingInputs={
+  title:"",
+  detail:"",
+  openerId:0,
+  eventDate:"",
+  startTime:"",
+  endTime:""
+}
 
-    const {register, setValue,formState:{errors,isValid}, handleSubmit} 
-    = useForm<UserInputs>({mode: "onTouched",
+export const useMeetingForm=(defaultvalue?:MeetingInputs | undefined)=>{
+    const form= useForm<MeetingInputs>({
+        mode: "onTouched",
+        defaultValues:defaultvalue || defaultVal,
         resolver: zodResolver(validationSchema), 
     })
-    console.log(defaultvalue)
-    return {
-        register,
-        setValue,
-        errors,
-        isValid,
-        handleSubmit
-    }
-
+    return form
 }
 
 

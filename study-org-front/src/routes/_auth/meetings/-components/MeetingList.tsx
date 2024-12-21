@@ -9,6 +9,7 @@ interface MeetingList{
 
 
 export const MeetingList = ({meetings}:MeetingList) => {
+  console.log("MeetingLIst")
     const navigate = useNavigate({ from: '/meetings' })
     const clickHandlerCreator=(meetingId:number)=>()=>{
         

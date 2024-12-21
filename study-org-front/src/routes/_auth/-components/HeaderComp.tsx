@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/navigation-menu"
 import { Link, LinkProps } from "@tanstack/react-router";
 import { useRecoilValue } from "recoil";
-import { LoginEmailState } from "@/state/auth";
+import { LoginEmailState, LoginUserIdState } from "@/state/auth";
  
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -55,11 +55,11 @@ const components: { title: string; href: string; description: string }[] = [
 ]
  
 export function HeaderComp() {
-  const email = useRecoilValue(LoginEmailState)
+  const id = useRecoilValue(LoginUserIdState)
   return (
     <div className="flex justify-between items-center sticky top-0">
       <div>
-{email}
+{id}
       </div>
       <div className="pr-4">
     <NavigationMenu >
