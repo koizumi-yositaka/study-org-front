@@ -1,4 +1,4 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
+import { Calendar, Home, Inbox, Plus, Search, Settings } from "lucide-react"
 
 import {
   Sidebar,
@@ -8,6 +8,7 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
+  SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
@@ -19,6 +20,9 @@ const items = [
     title: "Home",
     to: "/home",
     icon: Home,
+
+
+
   },
   {
     title: "BBBB",
@@ -39,6 +43,14 @@ const items = [
     title: "Meetings",
     to: "/meetings",
     icon: Settings,
+    rightComponent: ()=> (
+        <SidebarMenuAction >
+          <Link to={"/meetings/add"}>
+          <Plus /> <span className="sr-only">Add Project</span>
+          </Link>
+          
+        </SidebarMenuAction>
+    )
   },
   {
     title: "Settings",
@@ -61,12 +73,13 @@ export function AppSidebar() {
                   <SidebarMenuButton asChild>
                     <Link to={item.to} activeProps={{className:"underline"}}>
                     
-                                          <item.icon />
+                      <item.icon />
                       <span>{item.title}</span>
         
 
                     </Link>
                   </SidebarMenuButton>
+                  {item.rightComponent && item.rightComponent()}
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>

@@ -19,6 +19,7 @@ import { format } from 'date-fns'
 import { TimeSelector } from '@/common/components/TimeSelector'
 import { LoginUserIdState } from '@/state/auth'
 import { useRecoilValue } from 'recoil'
+import { Link } from '@tanstack/react-router'
 
 interface MeetingEditProp{
     editData:MeetingForm | null,
@@ -46,6 +47,7 @@ export const MeetingEdit = ({editData,isAdd=false}:MeetingEditProp) => {
     
   return (
   <div className='p-4'>
+    <Link to={"/meetings"}>戻る</Link>
     <div className="w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8">
 
     <Form {...form}>
@@ -118,7 +120,7 @@ export const MeetingEdit = ({editData,isAdd=false}:MeetingEditProp) => {
                 </FormItem>
             )}
             />
-            <TestButton disabled={!form.formState.isValid}  type={"submit"} variant={"danger"}>login</TestButton>
+            <TestButton pending={isPending} disabled={!form.formState.isValid}  type={"submit"} variant={"danger"}>login</TestButton>
       </form>
     </Form>
     </div>

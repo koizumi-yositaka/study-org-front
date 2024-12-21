@@ -21,6 +21,7 @@ import { Route as AuthCCCCRouteImport } from './routes/_auth/CCCC/route'
 import { Route as AuthBBBBRouteImport } from './routes/_auth/BBBB/route'
 import { Route as AuthMeetingsIndexImport } from './routes/_auth/meetings/index'
 import { Route as AuthMeetingsMeetingIdImport } from './routes/_auth/meetings/$meetingId'
+import { Route as AuthMeetingsAddRouteImport } from './routes/_auth/meetings/add/route'
 
 // Create/Update Routes
 
@@ -85,6 +86,12 @@ const AuthMeetingsMeetingIdRoute = AuthMeetingsMeetingIdImport.update({
   getParentRoute: () => AuthRoute,
 } as any)
 
+const AuthMeetingsAddRouteRoute = AuthMeetingsAddRouteImport.update({
+  id: '/meetings/add',
+  path: '/meetings/add',
+  getParentRoute: () => AuthRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -145,6 +152,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthUsersRouteImport
       parentRoute: typeof AuthImport
     }
+    '/_auth/meetings/add': {
+      id: '/_auth/meetings/add'
+      path: '/meetings/add'
+      fullPath: '/meetings/add'
+      preLoaderRoute: typeof AuthMeetingsAddRouteImport
+      parentRoute: typeof AuthImport
+    }
     '/_auth/meetings/$meetingId': {
       id: '/_auth/meetings/$meetingId'
       path: '/meetings/$meetingId'
@@ -170,6 +184,7 @@ interface AuthRouteChildren {
   AuthHomeRouteRoute: typeof AuthHomeRouteRoute
   AuthSettingsRouteRoute: typeof AuthSettingsRouteRoute
   AuthUsersRouteRoute: typeof AuthUsersRouteRoute
+  AuthMeetingsAddRouteRoute: typeof AuthMeetingsAddRouteRoute
   AuthMeetingsMeetingIdRoute: typeof AuthMeetingsMeetingIdRoute
   AuthMeetingsIndexRoute: typeof AuthMeetingsIndexRoute
 }
@@ -180,6 +195,7 @@ const AuthRouteChildren: AuthRouteChildren = {
   AuthHomeRouteRoute: AuthHomeRouteRoute,
   AuthSettingsRouteRoute: AuthSettingsRouteRoute,
   AuthUsersRouteRoute: AuthUsersRouteRoute,
+  AuthMeetingsAddRouteRoute: AuthMeetingsAddRouteRoute,
   AuthMeetingsMeetingIdRoute: AuthMeetingsMeetingIdRoute,
   AuthMeetingsIndexRoute: AuthMeetingsIndexRoute,
 }
@@ -195,6 +211,7 @@ export interface FileRoutesByFullPath {
   '/home': typeof AuthHomeRouteRoute
   '/settings': typeof AuthSettingsRouteRoute
   '/users': typeof AuthUsersRouteRoute
+  '/meetings/add': typeof AuthMeetingsAddRouteRoute
   '/meetings/$meetingId': typeof AuthMeetingsMeetingIdRoute
   '/meetings': typeof AuthMeetingsIndexRoute
 }
@@ -208,6 +225,7 @@ export interface FileRoutesByTo {
   '/home': typeof AuthHomeRouteRoute
   '/settings': typeof AuthSettingsRouteRoute
   '/users': typeof AuthUsersRouteRoute
+  '/meetings/add': typeof AuthMeetingsAddRouteRoute
   '/meetings/$meetingId': typeof AuthMeetingsMeetingIdRoute
   '/meetings': typeof AuthMeetingsIndexRoute
 }
@@ -222,6 +240,7 @@ export interface FileRoutesById {
   '/_auth/home': typeof AuthHomeRouteRoute
   '/_auth/settings': typeof AuthSettingsRouteRoute
   '/_auth/users': typeof AuthUsersRouteRoute
+  '/_auth/meetings/add': typeof AuthMeetingsAddRouteRoute
   '/_auth/meetings/$meetingId': typeof AuthMeetingsMeetingIdRoute
   '/_auth/meetings/': typeof AuthMeetingsIndexRoute
 }
@@ -237,6 +256,7 @@ export interface FileRouteTypes {
     | '/home'
     | '/settings'
     | '/users'
+    | '/meetings/add'
     | '/meetings/$meetingId'
     | '/meetings'
   fileRoutesByTo: FileRoutesByTo
@@ -249,6 +269,7 @@ export interface FileRouteTypes {
     | '/home'
     | '/settings'
     | '/users'
+    | '/meetings/add'
     | '/meetings/$meetingId'
     | '/meetings'
   id:
@@ -261,6 +282,7 @@ export interface FileRouteTypes {
     | '/_auth/home'
     | '/_auth/settings'
     | '/_auth/users'
+    | '/_auth/meetings/add'
     | '/_auth/meetings/$meetingId'
     | '/_auth/meetings/'
   fileRoutesById: FileRoutesById
@@ -307,6 +329,7 @@ export const routeTree = rootRoute
         "/_auth/home",
         "/_auth/settings",
         "/_auth/users",
+        "/_auth/meetings/add",
         "/_auth/meetings/$meetingId",
         "/_auth/meetings/"
       ]
@@ -329,6 +352,10 @@ export const routeTree = rootRoute
     },
     "/_auth/users": {
       "filePath": "_auth/users/route.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/meetings/add": {
+      "filePath": "_auth/meetings/add/route.tsx",
       "parent": "/_auth"
     },
     "/_auth/meetings/$meetingId": {

@@ -9,12 +9,11 @@ import SideBar from './_auth/-components/SideBar';
 export const Route = createFileRoute('/_auth')({
     component:RootComponent,
     beforeLoad: async ({ context }) => {
-    const { isLogged } = context.auth;
-    if (!isLogged()) {
-      throw redirect({ to: "/login" });
+      const { isLogged } = context.auth;
+      if (!isLogged()) {
+        throw redirect({ to: "/login" });
+      }
     }
-  },
-
 })
 function RootComponent() {
   

@@ -35,6 +35,7 @@ export const CalendarPopup = ({field,defaultValue=null}:ControlledCalendarProps)
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
+                    defaultMonth={new Date(field.value)}
                     selected={new Date(field.value)}
                     onSelect={field.onChange}
                     disabled={(date) =>

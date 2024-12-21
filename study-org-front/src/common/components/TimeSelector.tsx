@@ -6,6 +6,11 @@ interface TimeSelectorProps {
   field: any;
   defaultValue?: string | null;
 }
+
+
+const timeMinutes = ["00","15","30","45"]
+const timeHours = ["09","10","11","12","13","14","15","16","17","18","19"]
+
 export const TimeSelector = ({field,defaultValue=null}:TimeSelectorProps) => {
     const setHour=(value:string )=>{
         const minutes = field.value.substring(2, 4); // 現在の分部分
@@ -30,9 +35,9 @@ export const TimeSelector = ({field,defaultValue=null}:TimeSelectorProps) => {
                 </SelectTrigger>
             </FormControl>
             <SelectContent>
-                <SelectItem value="09">9</SelectItem>
-                <SelectItem value="10">10</SelectItem>
-                <SelectItem value="11">11</SelectItem>
+                {timeHours.map((hour)=>(
+                    <SelectItem value={hour}>{hour}</SelectItem>
+                ))}
             </SelectContent>
             </Select>
         </div>
@@ -49,9 +54,9 @@ export const TimeSelector = ({field,defaultValue=null}:TimeSelectorProps) => {
                     </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                    <SelectItem value="09">9</SelectItem>
-                    <SelectItem value="10">10</SelectItem>
-                    <SelectItem value="11">11</SelectItem>
+                    {timeMinutes.map((minute)=>(
+                        <SelectItem value={minute}>{minute}</SelectItem>
+                    ))}
                 </SelectContent>
                 </Select>
             </div>

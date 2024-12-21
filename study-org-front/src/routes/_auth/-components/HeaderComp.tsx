@@ -15,6 +15,7 @@ import {
 import { Link, LinkProps } from "@tanstack/react-router";
 import { useRecoilValue } from "recoil";
 import { LoginEmailState, LoginUserIdState } from "@/state/auth";
+import { BreadcrumbNav } from "@/common/components/BreadcrumbNav";
  
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -59,7 +60,7 @@ export function HeaderComp() {
   return (
     <div className="flex justify-between items-center sticky top-0">
       <div>
-{id}
+        {id}
       </div>
       <div className="pr-4">
     <NavigationMenu >
@@ -99,6 +100,7 @@ export function HeaderComp() {
       </NavigationMenuList>
     </NavigationMenu>
     </div>
+    
     </div>
   )
 }

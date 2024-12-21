@@ -9,6 +9,11 @@ import { TestButton } from '@/common/components/TestButton'
 
 export const Route = createFileRoute('/_auth/BBBB')({
   component: RouteComponent,
+  loader: () => {
+    return {
+      crumb: 'BBBB',
+    };
+  },
 })
 
 function RouteComponent() {

@@ -7,6 +7,7 @@ export const Route = createLazyFileRoute('/_auth/meetings/')({
   component: RouteComponent,
   errorComponent: () => <div>AAA</div>,
   pendingComponent: () => <div>load</div>,
+
 })
 
 function RouteComponent() {
