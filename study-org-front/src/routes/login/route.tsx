@@ -3,11 +3,9 @@ import { TestButton } from '../../common/components/TestButton'
 import useAuth from '../-hooks/useAuth'
 import { LabelAndErrorMsgWrapper } from '../_auth/-components/LabelAndErrorMsgWrapper';
 import { InputText } from '../../common/components/InputText';
-import { UserInputs, useUserForm } from '../-hooks/useUserForm';
+import { useUserForm } from '../-hooks/useUserForm';
 import { useUserService } from '@/service/user/useUserService';
-import { json } from 'stream/consumers';
 import { LoginUserForm } from '@/api/model';
-import { AXIOS_INSTANCE } from 'use-custom-instance';
  
 export const Route = createFileRoute('/login')({
   component: RouteComponent,
@@ -49,7 +47,7 @@ function RouteComponent() {
           <InputText {...register("email")} placeholder='name'></InputText>
         </LabelAndErrorMsgWrapper>
         <LabelAndErrorMsgWrapper variant={"normal"} label={"password"} errorElem={errors.password ?errors.password.message:""}>
-          <InputText {...register("password")} placeholder='password'></InputText>
+          <InputText {...register("password")} placeholder='password' type='password'></InputText>
         </LabelAndErrorMsgWrapper>
         <TestButton disabled={!isValid}  type={"submit"} variant={"danger"}>login</TestButton>
       </form>}
